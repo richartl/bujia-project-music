@@ -1,0 +1,73 @@
+---
+// Tarjeta de un producto/servicio del catálogo. Se reusa en la home
+// (CatalogSection) y en /catalogo (listado completo).
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  item: CollectionEntry<'catalog'>;
+  href: string;
+}
+
+const { item, href } = Astro.props;
+const { name, price, currency, image, soldOut } = item.data;
+const formatPrice = (p: number, c: string) => `$${p.toLocaleString('es-MX')} ${c}`;
+---
+
+<a href={href} class="catalog-card">
+  <span class="catalog-card__img" style={`background-image:url(${image})`}>
+    {soldOut && <span class="catalog-card__badge">Agotado</span>}
+  </span>
+  <span class="catalog-card__name">{name}</span>
+  {price != null && <span class="catalog-card__price">{formatPrice(price, currency)}</span>}
+</a>
+
+<style>
+  .catalog-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .catalog-card__img {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    background-color: rgba(127, 127, 127, 0.15);
+    background-size: cover;
+    background-position: center;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    margin-bottom: 0.8rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .catalog-card:hover .catalog-card__img {
+    box-shadow: 6px 6px 0 var(--accent);
+    transform: translate(-3px, -3px);
+  }
+  .catalog-card__badge {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 0.3em 0.7em;
+    border-radius: 999px;
+  }
+  .catalog-card__name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .catalog-card__price {
+    font-family: var(--font-head);
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+  }
+</style>

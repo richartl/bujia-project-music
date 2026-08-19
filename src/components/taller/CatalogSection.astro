@@ -1,12 +1,15 @@
 ---
-// Sección "Nuestros productos" debajo del hero: grilla de productos y
-// servicios que sale de src/content/catalog/*.md — agregar/quitar/editar
-// uno es agregar/borrar/editar un .md ahí, sin tocar este componente.
-// Cada ítem se prende/apaga con su propio `enabled`; la sección entera se
-// apaga con taller.catalog.enabled en site.ts. Usa el mismo sistema de
-// esquemas de color (rosa/acido/azul/negro) que las secciones del fanzine.
+// Sección "Nuestros productos" debajo del hero: productos y servicios
+// que salen de src/content/catalog/*.md — agregar/quitar/editar uno es
+// agregar/borrar/editar un .md ahí, sin tocar este componente. Se
+// muestran agrupados por tag (Productos / Servicios). Cada ítem se
+// prende/apaga con su propio `enabled`; la sección entera se apaga con
+// taller.catalog.enabled en site.ts. Usa el mismo sistema de esquemas de
+// color (rosa/acido/azul/negro) que las secciones del fanzine.
 import { getCollection } from 'astro:content';
 import { taller } from '../../config/site';
+import { groupCatalogItems } from '../../lib/catalog';
+import CatalogCard from './CatalogCard.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
@@ -15,9 +18,7 @@ const allItems = taller.catalog.enabled ? await getCollection('catalog', ({ data
 const sorted = allItems.sort((a, b) => a.data.order - b.data.order);
 const items = sorted.slice(0, taller.catalog.limit);
 const hasMore = sorted.length > items.length;
-
-const formatPrice = (price: number, currency: string) =>
-  `$${price.toLocaleString('es-MX')} ${currency}`;
+const groups = groupCatalogItems(items);
 ---
 
 {
@@ -29,22 +30,16 @@ const formatPrice = (price: number, currency: string) =>
           {taller.catalog.subtitle && <p class="catalog-section__subtitle">{taller.catalog.subtitle}</p>}
         </header>
 
-        <div class="catalog-grid">
-          {items.map((item) => (
-            <a href={withBase(`/catalogo/${item.slug}`)} class="catalog-card">
-              <span
-                class="catalog-card__img"
-                style={`background-image:url(${withBase(item.data.image)})`}
-              >
-                {item.data.soldOut && <span class="catalog-card__badge">Agotado</span>}
-              </span>
-              <span class="catalog-card__name">{item.data.name}</span>
-              {item.data.price != null && (
-                <span class="catalog-card__price">{formatPrice(item.data.price, item.data.currency)}</span>
-              )}
-            </a>
-          ))}
-        </div>
+        {groups.map((group) => (
+          <div class="catalog-group">
+            <p class="catalog-group__label">[{group.label.toUpperCase()}]</p>
+            <div class="catalog-grid">
+              {group.items.map((item) => (
+                <CatalogCard item={item} href={withBase(`/catalogo/${item.slug}`)} />
+              ))}
+            </div>
+          </div>
+        ))}
 
         {(hasMore || taller.catalog.ctaLabel) && (
           <div class="catalog-section__cta-wrap">
@@ -88,59 +83,24 @@ const formatPrice = (price: number, currency: string) =>
     margin: 0.5rem 0 0;
   }
 
+  .catalog-group + .catalog-group {
+    margin-top: 2.5rem;
+  }
+  .catalog-group__label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.4rem;
+    margin: 0 0 1.2rem;
+  }
   .catalog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
-  }
-
-  .catalog-card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  .catalog-card__img {
-    position: relative;
-    display: block;
-    aspect-ratio: 1 / 1;
-    background-color: rgba(127, 127, 127, 0.15);
-    background-size: cover;
-    background-position: center;
-    border: var(--border-w) solid var(--ink);
-    border-radius: var(--radius);
-    margin-bottom: 0.8rem;
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
-  }
-  .catalog-card:hover .catalog-card__img {
-    box-shadow: 6px 6px 0 var(--accent);
-    transform: translate(-3px, -3px);
-  }
-  .catalog-card__badge {
-    position: absolute;
-    top: 0.7rem;
-    left: 0.7rem;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--font-head);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.7rem;
-    padding: 0.3em 0.7em;
-    border-radius: 999px;
-  }
-  .catalog-card__name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .catalog-card__price {
-    font-family: var(--font-head);
-    color: var(--accent);
-    font-size: 0.9rem;
-    margin-top: 0.2rem;
   }
 
   .catalog-section__cta-wrap {
