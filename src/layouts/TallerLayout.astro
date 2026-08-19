@@ -1,8 +1,9 @@
 ---
 import '../styles/global.css';
-import { site, taller } from '../config/site';
+import { site } from '../config/site';
 import Header from '../components/taller/Header.astro';
 import AnnouncementBar from '../components/taller/AnnouncementBar.astro';
+import Footer from '../components/taller/Footer.astro';
 
 interface Props {
   title?: string;
@@ -30,20 +31,6 @@ const pageTitle = title ? `${title} — Bujía` : 'Bujía Project Music';
       <slot />
     </main>
 
-    <footer class="taller-footer">
-      <div class="container">
-        <p>{taller.logo.text} — {site.tagline}</p>
-      </div>
-    </footer>
-
-    <style>
-      .taller-footer {
-        border-top: var(--border-w) solid var(--ink);
-        margin-top: 4rem;
-        padding: 2rem 0;
-        font-size: 0.85rem;
-        text-align: center;
-      }
-    </style>
+    <Footer />
   </body>
 </html>

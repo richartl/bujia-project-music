@@ -87,6 +87,37 @@ export const taller = {
     // autoplay y sólo se navega con las flechitas.
     autoplayMs: 5000,
   },
+
+  // Footer del sitio: fondo negro, igual al header fijo. Cada bloque se
+  // puede prender/apagar por separado sin tocar el componente.
+  footer: {
+    // Formulario de newsletter. `action` es opcional: si tu proveedor
+    // (Mailchimp, Klaviyo, etc.) te da una URL de submit, ponela ahí;
+    // si se deja vacío el form no envía nada (placeholder visual).
+    newsletter: {
+      enabled: true,
+      title: 'Suscríbete al taller',
+      placeholder: 'Correo electrónico',
+      action: '',
+    },
+
+    // Datos de contacto del taller físico. Cualquier campo vacío no se
+    // muestra. Poné acá lo que la gente necesita para pasar o escribir.
+    contact: {
+      enabled: true,
+      address: 'Texcoco, Edo. de México',
+      phone: '',
+      email: 'hola@bujia.mx',
+      hours: 'Lun a vie, 10:00–18:00',
+    },
+
+    // Links legales/institucionales (política de privacidad, cambios y
+    // garantías, términos, etc). Agregá o quitá los que necesites.
+    legalLinks: [
+      { label: 'Política de privacidad', href: '/privacidad' },
+      { label: 'Política de cambios y garantías', href: '/politica-de-cambios' },
+    ],
+  },
 };
 
 // Los 4 esquemas de color punk (rosa / ácido / azul / negro) que ya usás
