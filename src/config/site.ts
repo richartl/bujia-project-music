@@ -51,10 +51,10 @@ export const taller = {
 
   // Ítems del menú principal (barra tipo píldora / menú fijo al hacer scroll).
   nav: [
-    { label: 'Home', href: '/taller' },
-    { label: 'Nosotros', href: '/taller/nosotros' },
-    { label: 'Servicios', href: '/taller/servicios' },
-    { label: 'Archive', href: '/taller/archive' },
+    { label: 'Home', href: '/' },
+    { label: 'Nosotros', href: '/nosotros' },
+    { label: 'Servicios', href: '/servicios' },
+    { label: 'Archive', href: '/archive' },
   ],
 
   // Buscador (ícono de lupa) en el header completo.
@@ -66,13 +66,13 @@ export const taller = {
   account: {
     enabled: true,
     label: 'Unirse',
-    href: '/taller/unirse',
+    href: '/unirse',
   },
 
   // Íconos del header FIJO que aparece al scrollear hacia abajo
   // (reemplaza al header completo mientras se navega la página).
   fixedHeader: {
-    home: { enabled: true, href: '/taller' },
+    home: { enabled: true, href: '/' },
     share: { enabled: true },
     search: { enabled: true },
   },
