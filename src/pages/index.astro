@@ -1,34 +1,10 @@
 ---
 import TallerLayout from '../layouts/TallerLayout.astro';
+import HeroSlider from '../components/taller/HeroSlider.astro';
+import CatalogSection from '../components/taller/CatalogSection.astro';
 ---
 
 <TallerLayout title="Taller">
-  <div class="container taller-hero">
-    <h1>Bienvenidos al taller</h1>
-    <p>
-      Esta es la nueva página del taller de Bujía Project Music. Scrolleá hacia
-      abajo para ver el header fijo en acción.
-    </p>
-  </div>
-
-  <div class="container taller-filler" aria-hidden="true">
-    {Array.from({ length: 20 }).map((_, i) => (
-      <p>Sección de contenido {i + 1}. Acá va a ir el contenido real del taller.</p>
-    ))}
-  </div>
-
-  <style>
-    .taller-hero {
-      padding: 3rem 0 2rem;
-    }
-    .taller-hero h1 {
-      font-family: var(--font-head);
-      text-transform: uppercase;
-    }
-    .taller-filler {
-      padding-bottom: 4rem;
-      display: grid;
-      gap: 1rem;
-    }
-  </style>
+  <HeroSlider />
+  <CatalogSection />
 </TallerLayout>

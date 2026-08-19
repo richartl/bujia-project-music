@@ -1,0 +1,221 @@
+---
+// Sección debajo del header: una o varias slides (foto + título + botón).
+// Las slides salen de src/content/hero/*.md — agregar/quitar/editar una
+// es agregar/borrar/editar un .md ahí, sin tocar este componente. Cada
+// slide se prende/apaga con su propio `enabled` en el frontmatter; la
+// sección entera se apaga con taller.hero.enabled en site.ts.
+// Con 0 o 1 slides habilitadas no se muestran flechas ni puntitos.
+import { getCollection } from 'astro:content';
+import { taller } from '../../config/site';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+
+const rawSlides = taller.hero.enabled ? await getCollection('hero', ({ data }) => data.enabled) : [];
+const sorted = rawSlides.sort((a, b) => a.data.order - b.data.order);
+const slides = await Promise.all(
+  sorted.map(async (slide) => ({ ...slide, Content: (await slide.render()).Content })),
+);
+const showNav = slides.length > 1;
+---
+
+{
+  slides.length > 0 && (
+    <section class="hero-slider" id="hero-slider">
+      <div class="hero-slider__track" id="hero-slider-track">
+        {slides.map((slide) => (
+          <div class="hero-slider__slide" style={`background-image:url(${withBase(slide.data.image)})`}>
+            <div class="hero-slider__card">
+              <h2 class="hero-slider__title">{slide.data.title}</h2>
+              <div class="hero-slider__body">
+                <slide.Content />
+              </div>
+              {slide.data.ctaLabel && slide.data.ctaHref && (
+                <a href={withBase(slide.data.ctaHref)} class="hero-slider__cta">
+                  {slide.data.ctaLabel}
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {showNav && (
+        <>
+          <button type="button" class="hero-slider__arrow hero-slider__arrow--prev" id="hero-prev" aria-label="Slide anterior">
+            ‹
+          </button>
+          <button type="button" class="hero-slider__arrow hero-slider__arrow--next" id="hero-next" aria-label="Slide siguiente">
+            ›
+          </button>
+          <div class="hero-slider__dots" id="hero-dots">
+            {slides.map((_, i) => (
+              <button type="button" class="hero-slider__dot" data-index={i} aria-label={`Ir a la slide ${i + 1}`} />
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  )
+}
+
+<style>
+  .hero-slider {
+    position: relative;
+    overflow: hidden;
+    border-bottom: var(--border-w) solid var(--ink);
+  }
+  .hero-slider__track {
+    display: flex;
+    transition: transform 0.4s ease;
+  }
+  .hero-slider__slide {
+    flex: none;
+    width: 100%;
+    min-height: 60vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .hero-slider__card {
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: 2rem 2.5rem;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.9);
+  }
+  .hero-slider__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--logo-color, #ff5b52);
+    margin: 0 0 0.6rem;
+  }
+  .hero-slider__body {
+    font-size: 0.9rem;
+    margin: 0 0 1.2rem;
+  }
+  .hero-slider__body :global(p) {
+    margin: 0;
+  }
+  .hero-slider__body:empty {
+    display: none;
+  }
+  .hero-slider__cta {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--accent);
+    color: var(--ink);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    padding: 0.7em 1.6em;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.6rem;
+    height: 2.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .hero-slider__arrow--prev {
+    left: 1.2rem;
+  }
+  .hero-slider__arrow--next {
+    right: 1.2rem;
+  }
+
+  .hero-slider__dots {
+    position: absolute;
+    left: 50%;
+    bottom: 1.2rem;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.6rem;
+  }
+  .hero-slider__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    padding: 0;
+    cursor: pointer;
+  }
+  .hero-slider__dot.is-active {
+    background: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .hero-slider__slide {
+      min-height: 70vh;
+      padding: 1.2rem;
+    }
+    .hero-slider__card {
+      padding: 1.5rem;
+    }
+    .hero-slider__arrow {
+      width: 2.2rem;
+      height: 2.2rem;
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<script>
+  function setupHeroSlider() {
+    const track = document.getElementById('hero-slider-track');
+    if (!track) return;
+
+    const slideCount = track.children.length;
+    let index = 0;
+
+    const dots = Array.from(document.querySelectorAll('#hero-dots .hero-slider__dot'));
+    const render = () => {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+    };
+
+    document.getElementById('hero-prev')?.addEventListener('click', () => {
+      index = (index - 1 + slideCount) % slideCount;
+      render();
+    });
+    document.getElementById('hero-next')?.addEventListener('click', () => {
+      index = (index + 1) % slideCount;
+      render();
+    });
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        index = i;
+        render();
+      });
+    });
+
+    render();
+  }
+
+  setupHeroSlider();
+  document.addEventListener('astro:page-load', setupHeroSlider);
+</script>

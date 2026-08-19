@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import TallerLayout from '../../layouts/TallerLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('catalog', ({ data }) => data.enabled);
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const { name, price, currency, image, category, soldOut, excerpt } = item.data;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+---
+
+<TallerLayout title={name} description={excerpt}>
+  <article class="container catalog-detail">
+    <a href={withBase('/catalogo')} class="catalog-detail__back">← Volver al catálogo</a>
+
+    <div class="catalog-detail__layout">
+      <div class="catalog-detail__img" style={`background-image:url(${withBase(image)})`}>
+        {soldOut && <span class="catalog-detail__badge">Agotado</span>}
+      </div>
+
+      <div class="catalog-detail__info">
+        <span class="catalog-detail__category">{category}</span>
+        <h1 class="catalog-detail__name">{name}</h1>
+        {price != null && (
+          <p class="catalog-detail__price">
+            ${price.toLocaleString('es-MX')} {currency}
+          </p>
+        )}
+        <div class="post-body catalog-detail__body">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .catalog-detail {
+      padding: 2.5rem 0 4rem;
+    }
+    .catalog-detail__back {
+      display: inline-block;
+      text-decoration: none;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .catalog-detail__layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .catalog-detail__img {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background-color: rgba(127, 127, 127, 0.15);
+      background-size: cover;
+      background-position: center;
+      border: var(--border-w) solid var(--ink);
+      border-radius: var(--radius);
+    }
+    .catalog-detail__badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-head);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      padding: 0.3em 0.8em;
+      border-radius: 999px;
+    }
+    .catalog-detail__category {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      background: var(--accent);
+      padding: 0.2em 0.7em;
+      margin-bottom: 0.8rem;
+    }
+    .catalog-detail__name {
+      font-family: var(--font-head);
+      text-transform: uppercase;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin: 0 0 0.4rem;
+    }
+    .catalog-detail__price {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--logo-color, #ff5b52);
+      margin: 0 0 1.5rem;
+    }
+
+    @media (max-width: 720px) {
+      .catalog-detail__layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</TallerLayout>

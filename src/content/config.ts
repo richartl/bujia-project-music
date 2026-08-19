@@ -26,4 +26,41 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+// Colección "hero": slides de la sección debajo del header (una o varias,
+// se muestra como slider automáticamente si hay más de una habilitada).
+// Cada slide es un archivo .md acá adentro; el cuerpo (si lo hay) se usa
+// como texto chico debajo del título.
+const hero = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    image: z.string(),
+    ctaLabel: z.string().optional(),
+    ctaHref: z.string().optional(),
+    // Apagar una slide (o todas) sin borrar el archivo.
+    enabled: z.boolean().default(true),
+    // Orden de aparición en el slider (menor primero).
+    order: z.number().default(0),
+  }),
+});
+
+// Colección "catalog": productos y servicios del taller. Cada uno es un
+// archivo .md; el cuerpo se usa como descripción larga en la página de
+// detalle (/catalogo/[slug]).
+const catalog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    price: z.number().nonnegative().optional(),
+    currency: z.string().default('MXN'),
+    image: z.string(),
+    category: z.enum(['producto', 'servicio']).default('producto'),
+    soldOut: z.boolean().default(false),
+    // Texto corto para la tarjeta (además de la descripción larga del body).
+    excerpt: z.string().optional(),
+    enabled: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { posts, hero, catalog };

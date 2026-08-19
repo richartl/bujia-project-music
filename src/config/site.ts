@@ -77,6 +77,30 @@ export const taller = {
     search: { enabled: true },
   },
 
+  // Sección debajo del header con una o varias slides (foto + título +
+  // botón). Las slides salen de src/content/hero/*.md — acá sólo se
+  // prende/apaga la sección entera. Cada slide se prende/apaga individual
+  // con su propio `enabled` en el frontmatter.
+  hero: {
+    enabled: true,
+  },
+
+  // Sección de catálogo (productos + servicios) debajo del hero. Los
+  // ítems salen de src/content/catalog/*.md. `limit` es cuántos se
+  // muestran en la home antes del botón "Ver todo" (que linkea a
+  // /catalogo, con el listado completo).
+  catalog: {
+    enabled: true,
+    title: 'Nuestros productos',
+    subtitle: 'Conocé nuestra línea de pedales y servicios hechos a mano',
+    limit: 6,
+    ctaLabel: 'Ver todo',
+    ctaHref: '/catalogo',
+    // Esquema de color de la sección (rosa | acido | azul | negro, ver
+    // colorSchemes acá abajo).
+    colorScheme: 'negro' as const,
+  },
+
   // Barra de anuncios arriba del header: franja negra angosta con
   // mensajes que se pueden navegar con las flechitas (y opcionalmente
   // rotan solas). `enabled: false` la saca del todo del sitio.
