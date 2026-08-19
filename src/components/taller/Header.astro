@@ -288,8 +288,9 @@ const withBase = (href: string) => `${base}${href}`;
     top: 0;
     left: 0;
     right: 0;
-    background: var(--ink);
-    color: var(--paper);
+    background: #fff;
+    color: var(--ink);
+    border-bottom: var(--border-w) solid var(--ink);
     transform: translateY(-100%);
     opacity: 0;
     transition: transform 0.28s ease, opacity 0.2s ease;
@@ -316,7 +317,7 @@ const withBase = (href: string) => `${base}${href}`;
     gap: 1.8rem;
   }
   .taller-header__nav-list--fixed a {
-    color: var(--paper);
+    color: var(--ink);
   }
 
   .taller-header__fixed-icons {
@@ -329,7 +330,7 @@ const withBase = (href: string) => `${base}${href}`;
   }
   .taller-header__fixed-icons a,
   .taller-header__fixed-icons button {
-    color: var(--paper);
+    color: var(--ink);
     background: none;
     border: none;
     padding: 0;
@@ -341,8 +342,8 @@ const withBase = (href: string) => `${base}${href}`;
     height: 18px;
   }
   .taller-header__menu-btn--fixed {
-    border-color: var(--paper);
-    color: var(--paper);
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   /* ── Mobile ─────────────────────────────────────────────────────── */
@@ -405,12 +406,13 @@ const withBase = (href: string) => `${base}${href}`;
       left: 0;
       right: 0;
       top: 100%;
-      background: var(--ink);
+      background: #fff;
+      border-bottom: var(--border-w) solid var(--ink);
       padding: 0.4rem 0;
       border-radius: 0;
     }
     .taller-header__nav-list--fixed li {
-      border-bottom: 1px solid var(--paper);
+      border-bottom: 1px solid var(--ink);
       opacity: 0.9;
     }
     .taller-header__nav-list--fixed li:last-child {
