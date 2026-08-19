@@ -29,12 +29,16 @@ export const social = {
 // ─────────────────────────────────────────────────────────────────────────
 export const taller = {
   logo: {
-    // Si `image` tiene un path, se usa esa imagen. Si no, se usa `text`
-    // con el estilo "cursiva en óvalo" del diseño.
+    // Si `image` tiene un path (relativo a /public, ej. "/img/logo.svg"),
+    // se usa esa imagen. Si se deja vacío, se usa `text` con el estilo
+    // "cursiva en óvalo" del diseño como placeholder.
     text: 'Bujía',
     image: '',
     alt: 'Bujía Project Music',
     href: '/',
+    // Color del óvalo y del texto placeholder (independiente del --accent
+    // del resto del sitio). No aplica si `image` está seteado.
+    color: '#ff5b52',
   },
 
   // Redes sociales que aparecen como íconos en el header completo.

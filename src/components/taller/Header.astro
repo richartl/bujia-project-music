@@ -15,7 +15,11 @@ const withBase = (href: string) => `${base}${href}`;
 ---
 
 <header class="taller-header" id="taller-header">
-  <div class="taller-header__full" id="taller-header-full">
+  <div class="taller-header__full" id="taller-header-full" style={`--logo-color: ${taller.logo.color}`}>
+    <span class="taller-header__corner taller-header__corner--left" aria-hidden="true"></span>
+    <span class="taller-header__corner taller-header__corner--right" aria-hidden="true"></span>
+    <span class="taller-header__edge-dot" aria-hidden="true"></span>
+
     <div class="container taller-header__top">
       {
         taller.social.length > 0 && (
@@ -34,7 +38,7 @@ const withBase = (href: string) => `${base}${href}`;
       <a href={withBase(taller.logo.href)} class="taller-header__logo" aria-label={taller.logo.alt}>
         {
           taller.logo.image ? (
-            <img src={taller.logo.image} alt={taller.logo.alt} />
+            <img src={withBase(taller.logo.image)} alt={taller.logo.alt} />
           ) : (
             <span>{taller.logo.text}</span>
           )
@@ -79,6 +83,7 @@ const withBase = (href: string) => `${base}${href}`;
           </li>
         ))}
       </ul>
+      <span class="taller-header__nav-dot" aria-hidden="true"></span>
     </nav>
   </div>
 
@@ -138,7 +143,52 @@ const withBase = (href: string) => `${base}${href}`;
   .taller-header__full {
     background: var(--paper);
     position: relative;
+    overflow: hidden;
     z-index: 50;
+  }
+
+  /* Marcas decorativas de esquina (par de trazos verticales), como en
+     el diseño original. Sólo en desktop: en mobile no entran cómodas. */
+  .taller-header__corner {
+    position: absolute;
+    top: 0;
+    width: 12px;
+    height: 46px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .taller-header__corner::before,
+  .taller-header__corner::after {
+    content: '';
+    width: 3px;
+    height: 100%;
+    background: var(--ink);
+  }
+  .taller-header__corner--left {
+    left: clamp(24px, 6vw, 110px);
+  }
+  .taller-header__corner--right {
+    right: clamp(24px, 6vw, 110px);
+  }
+
+  /* Circulito decorativo pegado al borde izquierdo, a la altura del logo. */
+  .taller-header__edge-dot {
+    position: absolute;
+    left: 4px;
+    top: 44px;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  @media (max-width: 960px) {
+    .taller-header__corner,
+    .taller-header__edge-dot {
+      display: none;
+    }
   }
 
   .taller-header__top {
@@ -172,7 +222,7 @@ const withBase = (href: string) => `${base}${href}`;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    border: var(--border-w) solid var(--accent, #ff5b52);
+    border: var(--border-w) solid var(--logo-color, #ff5b52);
     border-radius: 999px;
     padding: 0.35em 1.6em;
     min-width: 9rem;
@@ -182,11 +232,11 @@ const withBase = (href: string) => `${base}${href}`;
     width: auto;
   }
   .taller-header__logo span {
-    font-family: var(--font-head);
+    font-family: 'Segoe Script', 'Bradley Hand', 'Brush Script MT', cursive;
     font-weight: 700;
     font-style: italic;
-    font-size: 1.5rem;
-    color: var(--accent, #ff5b52);
+    font-size: 1.7rem;
+    color: var(--logo-color, #ff5b52);
     letter-spacing: 0.01em;
   }
 
@@ -242,9 +292,33 @@ const withBase = (href: string) => `${base}${href}`;
   }
 
   .taller-header__nav {
+    position: relative;
     display: flex;
     justify-content: center;
     padding: 1rem 0 1.4rem;
+  }
+  .taller-header__nav-dot {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 240px);
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .taller-header__nav-dot::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  @media (max-width: 960px) {
+    .taller-header__nav-dot {
+      display: none;
+    }
   }
   .taller-header__nav-list {
     display: flex;
