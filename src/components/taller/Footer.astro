@@ -27,7 +27,7 @@ const year = new Date().getFullYear();
   {
     newsletter.enabled && (
       <div class="taller-footer__row taller-footer__row--newsletter">
-        <div class="container taller-footer__newsletter">
+        <div class="taller-footer__container taller-footer__newsletter">
           <div class="taller-footer__newsletter-form">
             <p class="taller-footer__title">{newsletter.title}</p>
             <form class="taller-footer__form" action={newsletter.action || undefined} method="post">
@@ -63,7 +63,7 @@ const year = new Date().getFullYear();
   {
     (contactRows.length > 0 || legalLinks.length > 0) && (
       <div class="taller-footer__row">
-        <div class="container taller-footer__main">
+        <div class="taller-footer__container taller-footer__main">
           {contactRows.length > 0 && (
             <div class="taller-footer__contact">
               <p class="taller-footer__label">Contacto</p>
@@ -92,7 +92,7 @@ const year = new Date().getFullYear();
   }
 
   <div class="taller-footer__row">
-    <div class="container taller-footer__bottom">
+    <div class="taller-footer__container taller-footer__bottom">
       <p>© {year}, {taller.logo.text}</p>
     </div>
   </div>
@@ -106,6 +106,10 @@ const year = new Date().getFullYear();
   }
   .taller-footer a {
     color: inherit;
+  }
+  .taller-footer__container {
+    width: 100%;
+    padding: 0 24px;
   }
   .taller-footer__row {
     border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -121,7 +125,8 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1.5rem;
-    padding: 2.5rem 0;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
   .taller-footer__title {
     font-family: var(--font-head);
@@ -183,7 +188,8 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 2rem;
-    padding: 2rem 0;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   .taller-footer__label {
     font-family: var(--font-head);
@@ -221,7 +227,8 @@ const year = new Date().getFullYear();
 
   /* ── Copyright ──────────────────────────────────────────────────── */
   .taller-footer__bottom {
-    padding: 1.2rem 0;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
     font-size: 0.8rem;
     opacity: 0.75;
   }
