@@ -1,0 +1,476 @@
+---
+// Header del sitio del taller: dos estados.
+//  1) Header completo (logo + redes + buscador + cuenta + menú en píldora),
+//     visible arriba de la página.
+//  2) Header fijo/compacto (barra angosta con menú + íconos), que aparece
+//     al scrollear hacia abajo reemplazando al header completo, y se oculta
+//     al volver a subir o al llegar arriba del todo.
+// Todo el contenido (logo, redes, menú, cuenta, íconos del header fijo)
+// sale de src/config/site.ts — este componente sólo arma el markup.
+import { taller } from '../../config/site';
+import Icon from './Icon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => `${base}${href}`;
+---
+
+<header class="taller-header" id="taller-header">
+  <div class="taller-header__full" id="taller-header-full">
+    <div class="container taller-header__top">
+      {
+        taller.social.length > 0 && (
+          <ul class="taller-header__social">
+            {taller.social.map((s) => (
+              <li>
+                <a href={s.href} aria-label={s.label} target="_blank" rel="noreferrer noopener">
+                  <Icon name={s.name} class="taller-icon" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <a href={withBase(taller.logo.href)} class="taller-header__logo" aria-label={taller.logo.alt}>
+        {
+          taller.logo.image ? (
+            <img src={taller.logo.image} alt={taller.logo.alt} />
+          ) : (
+            <span>{taller.logo.text}</span>
+          )
+        }
+      </a>
+
+      <div class="taller-header__utils">
+        {taller.search.enabled && (
+          <button type="button" class="taller-header__search-btn" aria-label="Buscar">
+            <Icon name="search" class="taller-icon" />
+          </button>
+        )}
+        {taller.account.enabled && (
+          <>
+            <span class="taller-header__divider" aria-hidden="true" />
+            <a href={withBase(taller.account.href)} class="taller-header__account">
+              <Icon name="user" class="taller-icon" />
+              <span>{taller.account.label}</span>
+            </a>
+          </>
+        )}
+      </div>
+    </div>
+
+    <div class="taller-header__zigzag" aria-hidden="true"></div>
+
+    <nav class="container taller-header__nav" aria-label="Menú principal">
+      <button
+        type="button"
+        class="taller-header__menu-btn"
+        id="taller-menu-btn"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="taller-nav-list"
+      >
+        <Icon name="menu" class="taller-icon" />
+      </button>
+      <ul class="taller-header__nav-list" id="taller-nav-list">
+        {taller.nav.map((item) => (
+          <li>
+            <a href={withBase(item.href)}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="taller-header__fixed" id="taller-header-fixed">
+    <div class="container taller-header__fixed-in">
+      <button
+        type="button"
+        class="taller-header__menu-btn taller-header__menu-btn--fixed"
+        id="taller-menu-btn-fixed"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="taller-nav-list-fixed"
+      >
+        <Icon name="menu" class="taller-icon" />
+      </button>
+
+      <ul class="taller-header__nav-list taller-header__nav-list--fixed" id="taller-nav-list-fixed">
+        {taller.nav.map((item) => (
+          <li>
+            <a href={withBase(item.href)}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="taller-header__fixed-icons">
+        {taller.fixedHeader.home.enabled && (
+          <li>
+            <a href={withBase(taller.fixedHeader.home.href)} aria-label="Inicio">
+              <Icon name="home" class="taller-icon" />
+            </a>
+          </li>
+        )}
+        {taller.fixedHeader.share.enabled && (
+          <li>
+            <button type="button" class="taller-header__share-btn" aria-label="Compartir">
+              <Icon name="share" class="taller-icon" />
+            </button>
+          </li>
+        )}
+        {taller.fixedHeader.search.enabled && (
+          <li>
+            <button type="button" class="taller-header__search-btn taller-header__search-btn--fixed" aria-label="Buscar">
+              <Icon name="search" class="taller-icon" />
+            </button>
+          </li>
+        )}
+      </ul>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* El header completo vive en el flujo normal de la página (no es
+     sticky ni fixed): al scrollear hacia abajo desaparece solo, como
+     cualquier otro contenido. El header fijo/compacto es el único que
+     queda pegado arriba, y sólo se activa pasado un umbral de scroll. */
+  .taller-header__full {
+    background: var(--paper);
+    position: relative;
+    z-index: 50;
+  }
+
+  .taller-header__top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0 0.6rem;
+  }
+
+  .taller-header__social {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+  }
+  .taller-header__social a {
+    display: inline-flex;
+    color: var(--ink);
+  }
+  .taller-header__social :global(.taller-icon) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .taller-header__logo {
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: var(--border-w) solid var(--accent, #ff5b52);
+    border-radius: 999px;
+    padding: 0.35em 1.6em;
+    min-width: 9rem;
+  }
+  .taller-header__logo img {
+    max-height: 2.4rem;
+    width: auto;
+  }
+  .taller-header__logo span {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--accent, #ff5b52);
+    letter-spacing: 0.01em;
+  }
+
+  .taller-header__utils {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .taller-header__search-btn,
+  .taller-header__share-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--ink);
+    display: inline-flex;
+  }
+  .taller-header__divider {
+    width: 1px;
+    height: 1.3em;
+    background: var(--ink);
+    opacity: 0.4;
+  }
+  .taller-header__account {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .taller-header__utils :global(.taller-icon) {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Divisor tipo zigzag, puramente decorativo */
+  .taller-header__zigzag {
+    height: 10px;
+    margin: 0.4rem auto 0;
+    max-width: 900px;
+    background-image: linear-gradient(135deg, var(--ink) 25%, transparent 25%),
+      linear-gradient(225deg, var(--ink) 25%, transparent 25%);
+    background-position: 0 0;
+    background-size: 12px 10px;
+    background-repeat: repeat-x;
+    opacity: 0.85;
+  }
+
+  .taller-header__nav {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0 1.4rem;
+  }
+  .taller-header__nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0.8rem 2.4rem;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+  .taller-header__nav-list a {
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+  .taller-header__menu-btn {
+    display: none;
+    background: none;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    padding: 0.6rem;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .taller-header__menu-btn :global(.taller-icon) {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  /* ── Header fijo/compacto (aparece al scrollear) ───────────────────*/
+  .taller-header__fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.28s ease, opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .taller-header.is-fixed-visible .taller-header__fixed {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .taller-header__fixed-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.9rem 0;
+  }
+
+  .taller-header__nav-list--fixed {
+    border: none;
+    background: none;
+    padding: 0;
+    gap: 1.8rem;
+  }
+  .taller-header__nav-list--fixed a {
+    color: var(--paper);
+  }
+
+  .taller-header__fixed-icons {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 0;
+    padding: 0;
+  }
+  .taller-header__fixed-icons a,
+  .taller-header__fixed-icons button {
+    color: var(--paper);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+  }
+  .taller-header__fixed :global(.taller-icon) {
+    width: 18px;
+    height: 18px;
+  }
+  .taller-header__menu-btn--fixed {
+    border-color: var(--paper);
+    color: var(--paper);
+  }
+
+  /* ── Mobile ─────────────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .taller-header__top {
+      grid-template-columns: auto 1fr auto;
+      gap: 0.6rem;
+    }
+    .taller-header__social {
+      gap: 0.6rem;
+    }
+    .taller-header__logo {
+      padding: 0.25em 1.1em;
+      min-width: 0;
+    }
+    .taller-header__logo span {
+      font-size: 1.15rem;
+    }
+    .taller-header__account span {
+      display: none;
+    }
+
+    .taller-header__menu-btn {
+      display: inline-flex;
+    }
+    .taller-header__nav {
+      position: relative;
+      justify-content: flex-start;
+      padding: 0.8rem 0 1rem;
+    }
+    .taller-header__nav-list {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 100%;
+      margin-top: 0.6rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0.4rem;
+      border-radius: var(--radius);
+      display: none;
+    }
+    .taller-header__nav-list.is-open {
+      display: flex;
+    }
+    .taller-header__nav-list li {
+      border-bottom: 1px solid var(--ink);
+    }
+    .taller-header__nav-list li:last-child {
+      border-bottom: none;
+    }
+    .taller-header__nav-list a {
+      display: block;
+      padding: 0.75rem 1rem;
+    }
+
+    .taller-header__nav-list--fixed {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      background: var(--ink);
+      padding: 0.4rem 0;
+      border-radius: 0;
+    }
+    .taller-header__nav-list--fixed li {
+      border-bottom: 1px solid var(--paper);
+      opacity: 0.9;
+    }
+    .taller-header__nav-list--fixed li:last-child {
+      border-bottom: none;
+    }
+    .taller-header__nav-list--fixed a {
+      display: block;
+      padding: 0.75rem 24px;
+    }
+  }
+</style>
+
+<script>
+  function setupTallerHeader() {
+    const header = document.getElementById('taller-header');
+    if (!header) return;
+
+    // Toggle de menú mobile, tanto en el header completo como en el fijo.
+    const wireMenu = (btnId: string, listId: string) => {
+      const btn = document.getElementById(btnId);
+      const list = document.getElementById(listId);
+      if (!btn || !list) return;
+      btn.addEventListener('click', () => {
+        const open = list.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    };
+    wireMenu('taller-menu-btn', 'taller-nav-list');
+    wireMenu('taller-menu-btn-fixed', 'taller-nav-list-fixed');
+
+    // Botón de compartir del header fijo: usa Web Share API si está,
+    // si no cae en copiar el link al portapapeles.
+    const shareBtn = document.querySelector('.taller-header__share-btn');
+    shareBtn?.addEventListener('click', async () => {
+      const shareData = { title: document.title, url: location.href };
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch {
+          /* usuario canceló, no hacer nada */
+        }
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(location.href);
+      }
+    });
+
+    // Cerca del top: header completo visible, header fijo oculto.
+    // Al pasar el umbral (scrolleando la página): el header completo
+    // desaparece y aparece el header fijo/compacto en su lugar.
+    const FULL_HEADER_THRESHOLD = 80;
+
+    const onScroll = () => {
+      const pastThreshold = window.scrollY > FULL_HEADER_THRESHOLD;
+      header.classList.toggle('is-fixed-visible', pastThreshold);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  setupTallerHeader();
+  document.addEventListener('astro:page-load', setupTallerHeader);
+</script>

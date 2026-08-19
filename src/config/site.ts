@@ -21,6 +21,59 @@ export const social = {
   email: '',
 };
 
+// ─────────────────────────────────────────────────────────────────────────
+// Config del sitio del TALLER (Bujía Project Music) — header y elementos
+// comunes de las páginas de taller/servicios, separado del fanzine.
+// Todo lo que aparece en el header (logo, redes, menú, botón de cuenta,
+// íconos del header fijo) se controla desde acá, sin tocar el componente.
+// ─────────────────────────────────────────────────────────────────────────
+export const taller = {
+  logo: {
+    // Si `image` tiene un path, se usa esa imagen. Si no, se usa `text`
+    // con el estilo "cursiva en óvalo" del diseño.
+    text: 'Bujía',
+    image: '',
+    alt: 'Bujía Project Music',
+    href: '/',
+  },
+
+  // Redes sociales que aparecen como íconos en el header completo.
+  // `name` debe existir en <Icon /> (facebook | instagram | whatsapp).
+  social: [
+    { name: 'facebook', href: 'https://facebook.com/', label: 'Facebook' },
+    { name: 'instagram', href: 'https://instagram.com/', label: 'Instagram' },
+    { name: 'whatsapp', href: 'https://wa.me/', label: 'WhatsApp' },
+  ] as { name: 'facebook' | 'instagram' | 'whatsapp'; href: string; label: string }[],
+
+  // Ítems del menú principal (barra tipo píldora / menú fijo al hacer scroll).
+  nav: [
+    { label: 'Home', href: '/taller' },
+    { label: 'Nosotros', href: '/taller/nosotros' },
+    { label: 'Servicios', href: '/taller/servicios' },
+    { label: 'Archive', href: '/taller/archive' },
+  ],
+
+  // Buscador (ícono de lupa) en el header completo.
+  search: {
+    enabled: true,
+  },
+
+  // Botón/link de cuenta ("UNIRSE") en el header completo.
+  account: {
+    enabled: true,
+    label: 'Unirse',
+    href: '/taller/unirse',
+  },
+
+  // Íconos del header FIJO que aparece al scrollear hacia abajo
+  // (reemplaza al header completo mientras se navega la página).
+  fixedHeader: {
+    home: { enabled: true, href: '/taller' },
+    share: { enabled: true },
+    search: { enabled: true },
+  },
+};
+
 // Los 4 esquemas de color punk (rosa / ácido / azul / negro) que ya usás
 // en los snippets de Ghost para los títulos de sección tipo sticker.
 // Cambiá los hex acá y se propagan a todo el sitio (--ink / --accent / --paper
