@@ -1,0 +1,73 @@
+---
+// Portada de volumen: reemplaza el snippet "portada" de Ghost.
+// Uso en MDX:
+// <Portada volume={7} title="Fierros y Fuzz" subtitle="Julio 2026" image="/img/vol7-cover.jpg" />
+interface Props {
+  volume: number;
+  title: string;
+  subtitle?: string;
+  image?: string;
+}
+const { volume, title, subtitle, image } = Astro.props;
+---
+
+<section class="fz-portada">
+  {image && <img src={image} alt="" class="fz-portada__bg" />}
+  <div class="fz-portada__in">
+    <p class="fz-portada__vol">Volumen {volume}</p>
+    <h1 class="fz-portada__title">{title}</h1>
+    {subtitle && <p class="fz-portada__subtitle">{subtitle}</p>}
+  </div>
+</section>
+
+<style>
+  .fz-portada {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: flex-end;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 2rem;
+  }
+  .fz-portada__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+  .fz-portada__in {
+    position: relative;
+    padding: 2rem;
+  }
+  .fz-portada__vol {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    background: var(--accent);
+    color: var(--ink);
+    display: inline-block;
+    padding: 0.25em 0.7em;
+    margin-bottom: 0.6em;
+  }
+  .fz-portada__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
+    line-height: 0.95;
+    margin: 0 0 0.3em;
+  }
+  .fz-portada__subtitle {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    margin: 0;
+  }
+</style>

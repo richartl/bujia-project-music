@@ -1,0 +1,115 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  volume?: number;
+  fanzine: boolean;
+  colorScheme: 'rosa' | 'acido' | 'azul' | 'negro';
+  tags: string[];
+  cover?: string;
+  coverAlt?: string;
+  author: string;
+}
+
+const {
+  title,
+  description,
+  date,
+  volume,
+  fanzine,
+  colorScheme,
+  tags,
+  cover,
+  coverAlt,
+  author,
+} = Astro.props;
+
+const dateLabel = new Intl.DateTimeFormat('es-MX', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+}).format(date);
+---
+
+<BaseLayout title={title} description={description}>
+  <article class:list={['post', `scheme-${colorScheme}`]}>
+    <div class="container">
+      <div class="fz-print-btn-wrap fz-no-print">
+        <button type="button" class="fz-print-btn" onclick="window.print()">
+          Descargar PDF
+        </button>
+      </div>
+
+      {/*
+        Igual que el `{{#has tag="#fanzine"}}` de Ghost: si es un post de
+        fanzine, no imprimimos título/imagen default acá — el propio MDX
+        controla el orden visual con <Portada>, <SectionTitle>, etc.
+      */}
+      {!fanzine && (
+        <header class="post__header">
+          {cover && <img src={cover} alt={coverAlt ?? ''} class="post__cover" />}
+          <h1 class="post__title">{title}</h1>
+          <p class="post__meta">
+            <time datetime={date.toISOString()}>{dateLabel}</time>
+            {volume && <span> · Volumen {volume}</span>}
+            <span> · {author}</span>
+          </p>
+        </header>
+      )}
+
+      <div class="post-body">
+        <slot />
+      </div>
+
+      {tags.length > 0 && (
+        <ul class="post__tags fz-no-print">
+          {tags
+            .filter((t) => t !== '#fanzine')
+            .map((t) => (
+              <li>#{t.replace(/^#/, '')}</li>
+            ))}
+        </ul>
+      )}
+    </div>
+  </article>
+
+  <style>
+    .post {
+      background: var(--paper);
+      padding: 2.5rem 0;
+    }
+    .post__cover {
+      border: var(--border-w) solid var(--ink);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .post__title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      margin: 0 0 0.4rem;
+    }
+    .post__meta {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+    .post__tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 0;
+      margin: 2rem 0 0;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+  </style>
+</BaseLayout>

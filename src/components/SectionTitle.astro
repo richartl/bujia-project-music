@@ -1,0 +1,16 @@
+---
+// Título de sección tipo sticker ("Xerox Riot"). Va SIEMPRE precedido
+// por su propio salto de página vía la prop `pageBreak`, nunca aplicando
+// la clase de salto al título mismo (el clip-path rompe con `break-before`).
+// Uso: <SectionTitle scheme="rosa" pageBreak>Taller</SectionTitle>
+interface Props {
+  scheme?: 'rosa' | 'acido' | 'azul' | 'negro';
+  pageBreak?: boolean;
+}
+const { scheme = 'negro', pageBreak = false } = Astro.props;
+---
+
+{pageBreak && <div class="fz-page-num" />}
+<h2 class:list={['fz-section-title', `scheme-${scheme}`]}>
+  <slot />
+</h2>

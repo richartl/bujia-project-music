@@ -1,0 +1,70 @@
+---
+title: "Fierros y Fuzz"
+volume: 1
+date: 2026-08-01
+fanzine: true
+colorScheme: rosa
+tags: ["fanzine", "taller", "reparacion"]
+description: "Primer volumen de La Jirafa Eléctrica: rebobinado de pastillas, playlist de agosto y fotos del taller."
+cover: "/img/vol1-cover.jpg"
+author: Ripper
+---
+
+import Portada from '../../components/Portada.astro';
+import Indice from '../../components/Indice.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import Polaroid from '../../components/Polaroid.astro';
+import Columnas from '../../components/Columnas.astro';
+import Contraportada from '../../components/Contraportada.astro';
+
+<Portada
+  volume={1}
+  title="Fierros y Fuzz"
+  subtitle="Agosto 2026 — Texcoco"
+  image="/img/vol1-cover.jpg"
+/>
+
+<Indice
+  items={[
+    { page: "03", title: "Editorial" },
+    { page: "05", title: "Taller: rebobinado de pastillas" },
+    { page: "10", title: "Playlist del mes" },
+    { page: "14", title: "Fotos del taller" },
+  ]}
+/>
+
+<SectionTitle scheme="rosa" pageBreak>Editorial</SectionTitle>
+
+Este es el primer volumen de **La Jirafa Eléctrica**, el fanzine digital de
+Bujía Project Music. Acá va la editorial de arranque: por qué existe este
+zine, qué se van a encontrar cada mes, y el tono que le queremos dar —
+DIY, punk, sin filtro corporativo.
+
+<SectionTitle scheme="acido" pageBreak>Taller: rebobinado de pastillas</SectionTitle>
+
+<Columnas n={2}>
+
+Acá va la crónica del taller de rebobinado de pastillas, en dos columnas
+para que se sienta a fanzine de verdad. Metan el texto real cuando lo
+tengan — este es solo el andamiaje.
+
+Segunda mitad del texto de la columna. El componente `<Columnas n={2}>`
+ya trae el patrón "inner wrapper" para que la línea de lectura no se
+estire de más.
+
+</Columnas>
+
+<Polaroid
+  src="/img/taller-1.jpg"
+  alt="Rebobinando una pastilla a mano"
+  caption="Rebobinado a mano, agosto 2026"
+  tilt={-4}
+/>
+
+<SectionTitle scheme="azul" pageBreak>Playlist del mes</SectionTitle>
+
+1. Banda uno — Canción uno
+2. Banda dos — Canción dos
+3. Banda tres — Canción tres
+
+<Contraportada texto="Bujía Project Music — Texcoco, MX" />

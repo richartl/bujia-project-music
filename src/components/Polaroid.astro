@@ -1,0 +1,16 @@
+---
+// Tratamiento Polaroid para fotos de contenido.
+// Uso: <Polaroid src="/img/taller-1.jpg" alt="Rebobinando una pastilla" caption="Rebobinado a mano, marzo 2026" tilt={-4} />
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  tilt?: number;
+}
+const { src, alt, caption, tilt = -3 } = Astro.props;
+---
+
+<figure class="fz-polaroid" style={`--fz-tilt:${tilt}deg`}>
+  <img src={src} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

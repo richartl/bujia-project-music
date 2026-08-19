@@ -1,0 +1,37 @@
+---
+// Contraportada: sello de cierre del volumen.
+// Uso: <Contraportada texto="Bujía Project Music — Texcoco, MX" />
+interface Props {
+  texto?: string;
+}
+const { texto = 'Bujía Project Music — Texcoco, MX' } = Astro.props;
+---
+
+<section class="fz-contraportada fz-page-num">
+  <p class="fz-contraportada__stamp">{texto}</p>
+</section>
+
+<style>
+  .fz-contraportada {
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--paper);
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .fz-contraportada__stamp {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    border: 3px solid var(--accent);
+    padding: 0.8em 1.4em;
+    transform: rotate(-3deg);
+  }
+</style>

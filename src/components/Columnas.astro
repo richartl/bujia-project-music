@@ -1,0 +1,20 @@
+---
+// Bloque de columnas (equivalente a los "column block openers/closers"
+// de Ghost). Usa el patrón "inner wrapper": el elemento externo pierde
+// max-width para ser full-bleed, y el contenido real vive adentro con
+// su propio max-width para no perder longitud de línea legible.
+// Uso en MDX:
+// <Columnas n={2}>
+//   contenido markdown/mdx acá...
+// </Columnas>
+interface Props {
+  n?: 2 | 3;
+}
+const { n = 2 } = Astro.props;
+---
+
+<div class:list={[n === 3 ? 'fz-cols-3' : 'fz-cols-2']}>
+  <div class="fz-cols__inner">
+    <slot />
+  </div>
+</div>

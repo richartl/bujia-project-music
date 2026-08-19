@@ -1,0 +1,172 @@
+@import './tokens.css';
+
+/* Space Mono self-hosted. Poné los .woff2 en /public/fonts (los mismos
+   que ya tenías en assets/fonts del theme Ghost) */
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/space-mono-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/space-mono-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  container-type: inline-size;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Cuerpo del post: justificado + guionado, como en Ghost ──────────── */
+.post-body {
+  font-family: var(--font-body);
+  text-align: justify;
+  hyphens: auto;
+}
+.post-body p {
+  margin: 0 0 0.85em;
+}
+
+/* Dropcap del primer párrafo (equivalente al snippet "dropcap opener") */
+.post-body > p:first-of-type::first-letter {
+  float: left;
+  font-size: 4.2em;
+  line-height: 0.8;
+  font-weight: 700;
+  padding-right: 0.08em;
+  padding-top: 0.05em;
+}
+
+/* ── Columnas: fz-cols-2 / fz-cols-3, con wrapper interior para el
+   ancho de lectura (patrón "inner wrapper" de tus snippets) ─────────── */
+.fz-cols-2,
+.fz-cols-3 {
+  max-width: none;
+  container-type: inline-size;
+}
+.fz-cols-2 .fz-cols__inner {
+  columns: 2;
+  column-gap: 2.5rem;
+}
+.fz-cols-3 .fz-cols__inner {
+  columns: 3;
+  column-gap: 2rem;
+}
+@container (max-width: 40cqw) {
+  .fz-cols-2 .fz-cols__inner,
+  .fz-cols-3 .fz-cols__inner {
+    columns: 1;
+  }
+}
+
+/* ── Título de sección tipo sticker (estilo "Xerox Riot") ─────────────
+   Usa clip-path para el recorte irregular tipo calcomanía punk. Cada
+   esquema de color pinta ink/accent/paper distintos vía las clases
+   .scheme-*. */
+.fz-section-title {
+  --tilt: -2deg;
+  display: inline-block;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 0.5em 1.1em;
+  transform: rotate(var(--tilt));
+  clip-path: polygon(
+    2% 8%, 22% 0%, 45% 4%, 68% 0%, 90% 6%, 100% 22%,
+    97% 48%, 100% 74%, 90% 94%, 70% 100%, 48% 96%,
+    25% 100%, 6% 92%, 0% 68%, 4% 42%, 0% 18%
+  );
+  margin: 1.5rem 0 1rem;
+}
+
+/* Marcador de salto de página para impresión (fz-page-num). Va SIEMPRE
+   como div standalone antes del título de sección, nunca en el propio
+   título — el clip-path/overflow del título rompe el salto si se mezclan. */
+.fz-page-num {
+  break-before: page;
+}
+
+/* ── Polaroid: tratamiento de imágenes de contenido ───────────────────*/
+.fz-polaroid {
+  display: inline-block;
+  background: #fff;
+  padding: 12px 12px 40px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: rotate(var(--fz-tilt, -3deg));
+  margin: 1.5rem auto;
+}
+.fz-polaroid img {
+  display: block;
+}
+.fz-polaroid figcaption {
+  font-family: var(--font-head);
+  font-size: 0.85em;
+  text-align: center;
+  padding-top: 0.6em;
+  color: #333;
+}
+
+/* Web-only vs print-only (para video embebido, etc) */
+.fz-web-only {
+  display: block;
+}
+.fz-print-only {
+  display: none;
+}
+
+/* Botón flotante de descarga PDF */
+.fz-print-btn-wrap {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.fz-print-btn {
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--accent);
+  color: var(--ink);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  padding: 0.6em 1.4em;
+  cursor: pointer;
+}
