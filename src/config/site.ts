@@ -76,6 +76,17 @@ export const taller = {
     share: { enabled: true },
     search: { enabled: true },
   },
+
+  // Barra de anuncios arriba del header: franja negra angosta con
+  // mensajes que se pueden navegar con las flechitas (y opcionalmente
+  // rotan solas). `enabled: false` la saca del todo del sitio.
+  announcementBar: {
+    enabled: true,
+    messages: ['¡Fuzz, delay, overdrive y más!', 'Envíos a todo México', 'Reparaciones con garantía'],
+    // Cada cuántos ms cambia de mensaje solo. 0 (o null) desactiva el
+    // autoplay y sólo se navega con las flechitas.
+    autoplayMs: 5000,
+  },
 };
 
 // Los 4 esquemas de color punk (rosa / ácido / azul / negro) que ya usás
