@@ -17,6 +17,16 @@
   font-display: swap;
 }
 
+/* Anton self-hosted: display font tipo cartel/flyer punk para títulos
+   destacados (ej. el título de la sección de catálogo del taller). */
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/anton-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {

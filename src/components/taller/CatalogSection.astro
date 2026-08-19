@@ -68,6 +68,17 @@ const formatPrice = (price: number, currency: string) =>
     text-align: center;
     margin-bottom: 2.5rem;
   }
+  /* Título del catálogo: reusa el "sticker" .fz-section-title del sitio
+     pero con la display font Anton (tipo flyer/cartel punk) y mucho más
+     grande, para que se note bien la sección. */
+  .catalog-section__head :global(.fz-section-title) {
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 7vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    padding: 0.35em 0.9em 0.3em;
+  }
   .catalog-section__subtitle {
     font-family: var(--font-head);
     font-size: 0.9rem;
