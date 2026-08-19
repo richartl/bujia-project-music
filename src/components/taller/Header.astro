@@ -200,6 +200,7 @@ const withBase = (href: string) => `${base}${href}`;
   }
 
   .taller-header__social {
+    justify-self: end;
     list-style: none;
     display: flex;
     align-items: center;
@@ -241,7 +242,7 @@ const withBase = (href: string) => `${base}${href}`;
   }
 
   .taller-header__utils {
-    justify-self: end;
+    justify-self: start;
     display: flex;
     align-items: center;
     gap: 0.9rem;
@@ -282,7 +283,8 @@ const withBase = (href: string) => `${base}${href}`;
   .taller-header__zigzag {
     height: 10px;
     margin: 0.4rem auto 0;
-    max-width: 900px;
+    max-width: 340px;
+    width: 40%;
     background-image: linear-gradient(135deg, var(--ink) 25%, transparent 25%),
       linear-gradient(225deg, var(--ink) 25%, transparent 25%);
     background-position: 0 0;
@@ -329,8 +331,9 @@ const withBase = (href: string) => `${base}${href}`;
     margin: 0;
     padding: 0.8rem 2.4rem;
     border: var(--border-w) solid var(--ink);
+    border-bottom-width: calc(var(--border-w) * 2);
     border-radius: 999px;
-    background: var(--paper);
+    background: #fff;
   }
   .taller-header__nav-list a {
     text-decoration: none;
@@ -364,7 +367,7 @@ const withBase = (href: string) => `${base}${href}`;
     right: 0;
     background: #fff;
     color: var(--ink);
-    border-bottom: var(--border-w) solid var(--ink);
+    border-bottom: calc(var(--border-w) * 2) solid var(--ink);
     transform: translateY(-100%);
     opacity: 0;
     transition: transform 0.28s ease, opacity 0.2s ease;
@@ -381,7 +384,7 @@ const withBase = (href: string) => `${base}${href}`;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 0.9rem 0;
+    padding: 1.2rem 0;
   }
 
   .taller-header__nav-list--fixed {
@@ -398,7 +401,7 @@ const withBase = (href: string) => `${base}${href}`;
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1.6rem;
     margin: 0;
     padding: 0;
   }
@@ -412,8 +415,8 @@ const withBase = (href: string) => `${base}${href}`;
     display: inline-flex;
   }
   .taller-header__fixed :global(.taller-icon) {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
   }
   .taller-header__menu-btn--fixed {
     border-color: var(--ink);
