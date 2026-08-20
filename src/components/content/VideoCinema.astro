@@ -1,0 +1,97 @@
+---
+// Video de YouTube con marco de cine viejo: perforaciones de rollo de
+// película a los costados y una claqueta arriba con el título.
+// Uso: <VideoCinema id="dQw4w9WgXcQ" title="Sesión en vivo" clap="Toma 1" />
+interface Props {
+  id: string;
+  title: string;
+  clap?: string;
+}
+const { id, title, clap } = Astro.props;
+---
+
+<div class="cinema">
+  {clap && (
+    <div class="cinema__clap">
+      <span class="cinema__clap-stripes" aria-hidden="true" />
+      <span class="cinema__clap-text">{clap}</span>
+    </div>
+  )}
+  <div class="cinema__reel">
+    <span class="cinema__perf" aria-hidden="true" />
+    <div class="cinema__screen">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${id}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      />
+    </div>
+    <span class="cinema__perf" aria-hidden="true" />
+  </div>
+</div>
+
+<style>
+  .cinema {
+    max-width: 720px;
+    margin: 2.5rem auto;
+  }
+  .cinema__clap {
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.5rem 1rem;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden;
+  }
+  .cinema__clap-stripes {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -35deg,
+      #fff 0 14px,
+      var(--ink) 14px 28px
+    );
+    opacity: 0.9;
+    height: 10px;
+    top: 0;
+  }
+  .cinema__clap-text {
+    position: relative;
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+    padding-top: 0.6rem;
+  }
+  .cinema__reel {
+    display: flex;
+    align-items: stretch;
+    background: #000;
+  }
+  .cinema__perf {
+    flex: none;
+    width: 18px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 6px,
+      #d8cdb8 6px 16px,
+      transparent 16px 22px
+    );
+  }
+  .cinema__screen {
+    position: relative;
+    flex: 1;
+    aspect-ratio: 16 / 9;
+  }
+  .cinema__screen iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>

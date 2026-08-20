@@ -1,0 +1,66 @@
+---
+// Nota/callout destacada dentro del texto. 3 variantes.
+// Uso: <Note variant="warning">Ojo: este circuito lleva 18V, no 9V.</Note>
+interface Props {
+  variant?: 'note' | 'warning' | 'tip';
+  title?: string;
+}
+const { variant = 'note', title } = Astro.props;
+const DEFAULT_TITLES: Record<string, string> = {
+  note: 'Nota',
+  warning: 'Ojo',
+  tip: 'Tip',
+};
+const label = title ?? DEFAULT_TITLES[variant];
+---
+
+<aside class:list={['pk-note', `pk-note--${variant}`]}>
+  <p class="pk-note__label">{label}</p>
+  <div class="pk-note__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .pk-note {
+    margin: 2rem 0;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    background: #fff;
+  }
+  .pk-note__label {
+    margin: 0 0 0.4rem;
+    display: inline-block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    padding: 0.2em 0.7em;
+    border-radius: 999px;
+  }
+  .pk-note__body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .pk-note__body :global(p) {
+    margin: 0;
+  }
+
+  .pk-note--note .pk-note__label {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .pk-note--warning {
+    border-color: #e63d2f;
+  }
+  .pk-note--warning .pk-note__label {
+    background: #e63d2f;
+    color: #fff;
+  }
+  .pk-note--tip .pk-note__label {
+    background: var(--accent);
+    color: var(--ink);
+  }
+</style>

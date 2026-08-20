@@ -1,0 +1,54 @@
+---
+// Imagen a la izquierda o derecha con el texto del post fluyendo
+// alrededor. Metela en medio de tus párrafos de MDX.
+// Uso: <ImageSide src="/img/pastilla.jpg" alt="Pastilla rebobinada" side="left" caption="Rebobinado a mano" />
+interface Props {
+  src: string;
+  alt: string;
+  side?: 'left' | 'right';
+  caption?: string;
+  width?: string;
+}
+const { src, alt, side = 'left', caption, width = '42%' } = Astro.props;
+---
+
+<figure class:list={['img-side', `img-side--${side}`]} style={`--img-side-w: ${width}`}>
+  <img src={src} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .img-side {
+    width: var(--img-side-w);
+    margin: 0.3rem 0 1rem;
+  }
+  .img-side--left {
+    float: left;
+    margin-right: 1.5rem;
+  }
+  .img-side--right {
+    float: right;
+    margin-left: 1.5rem;
+  }
+  .img-side img {
+    width: 100%;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+  }
+  .img-side figcaption {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .img-side {
+      float: none;
+      width: 100%;
+      margin: 1.5rem 0;
+    }
+  }
+</style>
