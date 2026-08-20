@@ -4,11 +4,23 @@ import HeroSlider from '../components/taller/HeroSlider.astro';
 import AboutSection from '../components/taller/AboutSection.astro';
 import CatalogSection from '../components/taller/CatalogSection.astro';
 import JournalSection from '../components/taller/JournalSection.astro';
+import { taller } from '../config/site';
+
+// Mapa clave -> componente. El orden real en pantalla lo decide
+// taller.homeSections (src/config/site.ts), no el orden de este objeto.
+const HOME_SECTIONS = {
+  hero: HeroSlider,
+  about: AboutSection,
+  catalog: CatalogSection,
+  journal: JournalSection,
+};
 ---
 
 <TallerLayout title="Taller">
-  <HeroSlider />
-  <AboutSection />
-  <CatalogSection />
-  <JournalSection />
+  {
+    taller.homeSections.map((key) => {
+      const Section = HOME_SECTIONS[key];
+      return Section ? <Section /> : null;
+    })
+  }
 </TallerLayout>

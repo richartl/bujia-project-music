@@ -92,6 +92,13 @@ const about = defineCollection({
     title: z.string(),
     image: z.string(),
     imageAlt: z.string().optional(),
+    // De qué lado va la imagen. Alterná 'left'/'right' entre bloques para
+    // que la home no se vea repetitiva (como "¿Qué es...?" vs "Cómo
+    // construimos...").
+    imagePosition: z.enum(['left', 'right']).default('left'),
+    // Esquema de color de este bloque en particular (rosa | acido | azul |
+    // negro). Si no se pone, usa taller.about.colorScheme (site.ts).
+    colorScheme: z.enum(['rosa', 'acido', 'azul', 'negro']).optional(),
     // Texto chico arriba del botón, ej. "Conoce aquí más sobre nosotrxs:".
     ctaEyebrow: z.string().optional(),
     ctaLabel: z.string().optional(),

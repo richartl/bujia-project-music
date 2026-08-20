@@ -28,6 +28,13 @@ export const social = {
 // íconos del header fijo) se controla desde acá, sin tocar el componente.
 // ─────────────────────────────────────────────────────────────────────────
 export const taller = {
+  // Orden de las secciones de la home (src/pages/index.astro). Reordená
+  // este array para cambiar el orden en la página sin tocar código —
+  // sacá una clave para quitar esa sección de la home (sigue existiendo,
+  // simplemente no se renderiza ahí). Claves válidas: 'hero' | 'about' |
+  // 'catalog' | 'journal'.
+  homeSections: ['hero', 'about', 'catalog', 'journal'] as const,
+
   logo: {
     // Si `image` tiene un path (relativo a /public, ej. "/img/logo.svg"),
     // se usa esa imagen. Si se deja vacío, se usa `text` con el estilo
