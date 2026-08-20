@@ -6,10 +6,10 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 export const site = {
-  title: 'La Jirafa Eléctrica',
-  tagline: 'Fanzine digital de Bujía Project Music',
+  title: 'Bujia Project Music',
+  tagline: 'Taller de ajuste, reparacion, custom y construccion de guitarras y bajos',
   description:
-    'Fanzine punk/DIY de reparación y construcción de instrumentos — Bujía Project Music (Ripper), Texcoco.',
+    'Desde Texcoco, Estado de Mexico para el mundo, puro PANK!!',
   lang: 'es',
   locale: 'es_MX',
 };
@@ -40,7 +40,7 @@ export const taller = {
     // se usa esa imagen. Si se deja vacío, se usa `text` con el estilo
     // "cursiva en óvalo" del diseño como placeholder.
     text: 'Bujía',
-    image: '',
+    image: '/public/img/logo.png',
     alt: 'Bujía Project Music',
     href: '/',
     // Color del óvalo y del texto placeholder (independiente del --accent
@@ -51,27 +51,27 @@ export const taller = {
   // Redes sociales que aparecen como íconos en el header completo.
   // `name` debe existir en <Icon /> (facebook | instagram | whatsapp).
   social: [
-    { name: 'facebook', href: 'https://facebook.com/', label: 'Facebook' },
-    { name: 'instagram', href: 'https://instagram.com/', label: 'Instagram' },
-    { name: 'whatsapp', href: 'https://wa.me/', label: 'WhatsApp' },
+    { name: 'facebook', href: 'https://facebook.com/bujiaprojectmusic', label: 'Facebook' },
+    { name: 'instagram', href: 'https://instagram.com/bujiaprojectmusic', label: 'Instagram' },
+    { name: 'whatsapp', href: 'https://wa.me/message/PRMKHTDNWYD3I1', label: 'WhatsApp' },
   ] as { name: 'facebook' | 'instagram' | 'whatsapp'; href: string; label: string }[],
 
   // Ítems del menú principal (barra tipo píldora / menú fijo al hacer scroll).
   nav: [
     { label: 'Home', href: '/' },
     { label: 'Nosotros', href: '/nosotros' },
-    { label: 'Servicios', href: '/servicios' },
-    { label: 'Archive', href: '/archive' },
+    { label: 'Servicios', href: '/catalogo' },
+    { label: 'Blog', href: '/archive' },
   ],
 
   // Buscador (ícono de lupa) en el header completo.
   search: {
-    enabled: true,
+    enabled: false,
   },
 
   // Botón/link de cuenta ("UNIRSE") en el header completo.
   account: {
-    enabled: true,
+    enabled: false,
     label: 'Unirse',
     href: '/unirse',
   },
@@ -80,8 +80,8 @@ export const taller = {
   // (reemplaza al header completo mientras se navega la página).
   fixedHeader: {
     home: { enabled: true, href: '/' },
-    share: { enabled: true },
-    search: { enabled: true },
+    share: { enabled: false },
+    search: { enabled: false },
   },
 
   // Sección debajo del header con una o varias slides (foto + título +
@@ -89,7 +89,7 @@ export const taller = {
   // prende/apaga la sección entera. Cada slide se prende/apaga individual
   // con su propio `enabled` en el frontmatter.
   hero: {
-    enabled: true,
+    enabled: false,
   },
 
   // Sección "¿Qué es [taller]?" (imagen + texto + botón) debajo del hero.
@@ -107,14 +107,14 @@ export const taller = {
   // de about y de catalog). Los modelos salen de src/content/guitars/*.md.
   // `limit` es cuántos se muestran antes del botón "Ver todas".
   guitars: {
-    enabled: true,
+    enabled: false,
     title: 'Guitarras que construimos',
     subtitle: 'Cada una hecha a mano, a pedido, en el taller',
     limit: 6,
     ctaLabel: 'Ver todas',
     ctaHref: '/guitarras',
     // Esquema de color de la sección (rosa | acido | azul | negro).
-    colorScheme: 'acido' as const,
+    colorScheme: 'negro' as const,
   },
 
   // Sección de catálogo (productos + servicios) debajo del hero. Los
@@ -124,13 +124,13 @@ export const taller = {
   catalog: {
     enabled: true,
     title: 'Nuestros productos',
-    subtitle: 'Conocé nuestra línea de pedales y servicios hechos a mano',
+    subtitle: 'Conoce los servicios que ofrecemos para tu instrumento',
     limit: 6,
     ctaLabel: 'Ver todo',
     ctaHref: '/catalogo',
     // Esquema de color de la sección (rosa | acido | azul | negro, ver
     // colorSchemes acá abajo).
-    colorScheme: 'negro' as const,
+    colorScheme: 'rosa' as const,
   },
 
   // Sección "Desde el taller" debajo del catálogo, con novedades/posts.
@@ -141,7 +141,7 @@ export const taller = {
     enabled: true,
     title: 'Desde el taller',
     subtitle: 'Sesiones, reparaciones y cosas que armamos por acá',
-    limit: 3,
+    limit: 4,
     ctaLabel: 'Ver todos',
     ctaHref: '/archive',
   },
@@ -151,7 +151,7 @@ export const taller = {
   // rotan solas). `enabled: false` la saca del todo del sitio.
   announcementBar: {
     enabled: true,
-    messages: ['¡Fuzz, delay, overdrive y más!', 'Envíos a todo México', 'Reparaciones con garantía'],
+    messages: ['¡Ajuste y reparacion para tu guitarra o bajo!', 'Customizacion para tu instrumento', 'Somos guitar tech'],
     // Cada cuántos ms cambia de mensaje solo. 0 (o null) desactiva el
     // autoplay y sólo se navega con las flechitas.
     autoplayMs: 5000,
@@ -164,7 +164,7 @@ export const taller = {
     // (Mailchimp, Klaviyo, etc.) te da una URL de submit, ponela ahí;
     // si se deja vacío el form no envía nada (placeholder visual).
     newsletter: {
-      enabled: true,
+      enabled: false,
       title: 'Suscríbete al taller',
       placeholder: 'Correo electrónico',
       action: '',
@@ -174,10 +174,10 @@ export const taller = {
     // muestra. Poné acá lo que la gente necesita para pasar o escribir.
     contact: {
       enabled: true,
-      address: 'Texcoco, Edo. de México',
-      phone: '',
-      email: 'hola@bujia.mx',
-      hours: 'Lun a vie, 10:00–18:00',
+      address: 'Zacatecas 39, San Nicolas Huexotla, Texcoco, Edo. de México',
+      phone: '5618622447',
+      email: 'bujiaprojectmusic@gmail.com',
+      hours: 'Lun a jue, 12:00--19:30, Vie a Sab 10:00--15:30',
     },
 
     // Links legales/institucionales (política de privacidad, cambios y
@@ -221,8 +221,8 @@ export type ColorSchemeName = keyof typeof colorSchemes;
 // Colores base del sitio (fuera del contenido de los posts): equivalen a
 // background_color / main_color del package.json del theme Xoxo original.
 export const baseTheme = {
-  background: '#fff5cf',
-  main: '#ffcc00',
+  background: '#E8E1D2',
+  main: '#E8E1D2',
   ink: '#000000',
 };
 
