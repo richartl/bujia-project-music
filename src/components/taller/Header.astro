@@ -35,7 +35,11 @@ const withBase = (href: string) => `${base}${href}`;
         )
       }
 
-      <a href={withBase(taller.logo.href)} class="taller-header__logo" aria-label={taller.logo.alt}>
+      <a
+        href={withBase(taller.logo.href)}
+        class:list={['taller-header__logo', !taller.logo.image && 'taller-header__logo--pill']}
+        aria-label={taller.logo.alt}
+      >
         {
           taller.logo.image ? (
             <img src={withBase(taller.logo.image)} alt={taller.logo.alt} />
@@ -222,14 +226,21 @@ const withBase = (href: string) => `${base}${href}`;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+  }
+  /* El "pill" con borde ovalado sólo aplica al logo de texto (placeholder
+     por si todavía no subiste una imagen). Con imagen, se ve la imagen
+     entera, sin círculo/óvalo alrededor. */
+  .taller-header__logo--pill {
     border: var(--border-w) solid var(--logo-color, #ff5b52);
     border-radius: 999px;
     padding: 0.35em 1.6em;
     min-width: 9rem;
   }
   .taller-header__logo img {
-    max-height: 2.4rem;
-    width: auto;
+    display: block;
+    width: 260px;
+    height: 84px;
+    object-fit: contain;
   }
   .taller-header__logo span {
     font-family: 'Segoe Script', 'Bradley Hand', 'Brush Script MT', cursive;
@@ -409,12 +420,16 @@ const withBase = (href: string) => `${base}${href}`;
     .taller-header__social {
       gap: 0.6rem;
     }
-    .taller-header__logo {
+    .taller-header__logo--pill {
       padding: 0.25em 1.1em;
       min-width: 0;
     }
     .taller-header__logo span {
       font-size: 1.15rem;
+    }
+    .taller-header__logo img {
+      width: 180px;
+      height: 56px;
     }
     .taller-header__account span {
       display: none;
