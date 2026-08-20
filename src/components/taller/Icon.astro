@@ -11,7 +11,8 @@ interface Props {
     | 'home'
     | 'share'
     | 'menu'
-    | 'close';
+    | 'close'
+    | 'calendar';
   class?: string;
 }
 
@@ -113,6 +114,16 @@ const { name, class: className } = Astro.props;
     <svg class={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <line x1="5" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
       <line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </svg>
+  )
+}
+{
+  name === 'calendar' && (
+    <svg class={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8" />
+      <line x1="3.5" y1="9.5" x2="20.5" y2="9.5" stroke="currentColor" stroke-width="1.8" />
+      <line x1="7.5" y1="3.2" x2="7.5" y2="6.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <line x1="16.5" y1="3.2" x2="16.5" y2="6.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
     </svg>
   )
 }

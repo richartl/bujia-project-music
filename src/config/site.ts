@@ -101,6 +101,19 @@ export const taller = {
     colorScheme: 'negro' as const,
   },
 
+  // Sección "Desde el taller" debajo del catálogo, con novedades/posts.
+  // Salen de src/content/journal/*.md. `limit` es cuántos se muestran en
+  // la home antes del botón "Ver todos" (que linkea a /archive, con el
+  // listado completo).
+  journal: {
+    enabled: true,
+    title: 'Desde el taller',
+    subtitle: 'Sesiones, reparaciones y cosas que armamos por acá',
+    limit: 3,
+    ctaLabel: 'Ver todos',
+    ctaHref: '/archive',
+  },
+
   // Barra de anuncios arriba del header: franja negra angosta con
   // mensajes que se pueden navegar con las flechitas (y opcionalmente
   // rotan solas). `enabled: false` la saca del todo del sitio.

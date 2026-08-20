@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import TallerLayout from '../../layouts/TallerLayout.astro';
+import TallerCover from '../../components/taller/TallerCover.astro';
+import JournalCard from '../../components/taller/JournalCard.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+
+const allPosts = await getCollection('journal', ({ data }) => data.enabled);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<TallerLayout title="Archive">
+  <div class="container-wide">
+    <TallerCover
+      tag="Archive"
+      title="Desde el taller"
+      subtitle="Sesiones, reparaciones y todo lo que armamos por acá"
+      colorScheme="acido"
+    >
+      <div class="journal-grid">
+        {posts.map((post) => (
+          <JournalCard post={post} href={withBase(`/archive/${post.slug}`)} image={withBase(post.data.cover)} />
+        ))}
+      </div>
+    </TallerCover>
+  </div>
+
+  <style>
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.1rem;
+    }
+  </style>
+</TallerLayout>

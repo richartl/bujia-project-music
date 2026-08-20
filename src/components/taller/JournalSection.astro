@@ -1,0 +1,77 @@
+---
+// Sección "Desde el taller" debajo del catálogo: novedades/posts que
+// salen de src/content/journal/*.md — agregar/quitar/editar uno es
+// agregar/borrar/editar un .md ahí, sin tocar este componente. Cada
+// entrada se prende/apaga con su propio `enabled`; la sección entera se
+// apaga con taller.journal.enabled en site.ts.
+import { getCollection } from 'astro:content';
+import { taller } from '../../config/site';
+import StickerTitle from './StickerTitle.astro';
+import PunkButton from './PunkButton.astro';
+import JournalCard from './JournalCard.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+
+const allPosts = taller.journal.enabled ? await getCollection('journal', ({ data }) => data.enabled) : [];
+const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = sorted.slice(0, taller.journal.limit);
+const hasMore = sorted.length > posts.length;
+---
+
+{
+  posts.length > 0 && (
+    <section class="journal-section">
+      <div class="container-wide journal-section__in">
+        <header class="journal-section__head">
+          <StickerTitle text={taller.journal.title} />
+          {taller.journal.subtitle && <p class="journal-section__subtitle">{taller.journal.subtitle}</p>}
+        </header>
+
+        <div class="journal-grid">
+          {posts.map((post) => (
+            <JournalCard post={post} href={withBase(`/archive/${post.slug}`)} image={withBase(post.data.cover)} />
+          ))}
+        </div>
+
+        {(hasMore || taller.journal.ctaLabel) && (
+          <div class="journal-section__cta-wrap">
+            <PunkButton href={withBase(taller.journal.ctaHref)} label={taller.journal.ctaLabel} />
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .journal-section {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 3rem 0;
+  }
+  .journal-section__head {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .journal-section__subtitle {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    margin: 0.5rem 0 0;
+  }
+
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .journal-section__cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

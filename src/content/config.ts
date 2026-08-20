@@ -63,4 +63,23 @@ const catalog = defineCollection({
   }),
 });
 
-export const collections = { posts, hero, catalog };
+// Colección "journal": bitácora/novedades del taller ("Desde el taller",
+// sesiones, etc) que se muestra en la home y en /archive. Cada entrada es
+// un archivo .md; el cuerpo se usa como contenido completo en la página
+// de detalle (/archive/[slug]).
+const journal = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    // Etiqueta corta tipo "Desde el taller" / "Sesiones" que aparece
+    // junto a la fecha en la tarjeta.
+    tag: z.string(),
+    cover: z.string(),
+    excerpt: z.string().optional(),
+    author: z.string().default('Ripper'),
+    enabled: z.boolean().default(true),
+  }),
+});
+
+export const collections = { posts, hero, catalog, journal };
