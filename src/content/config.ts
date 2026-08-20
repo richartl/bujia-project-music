@@ -82,4 +82,23 @@ const journal = defineCollection({
   }),
 });
 
-export const collections = { posts, hero, catalog, journal };
+// Colección "about": bloques tipo "¿Qué es [taller]?" (imagen + texto +
+// botón) para la home. Cada entrada es un archivo .md o .mdx acá adentro;
+// el cuerpo es el párrafo de contenido, así que se puede escribir con
+// formato (negritas, links, etc) igual que un post.
+const about = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    image: z.string(),
+    imageAlt: z.string().optional(),
+    // Texto chico arriba del botón, ej. "Conoce aquí más sobre nosotrxs:".
+    ctaEyebrow: z.string().optional(),
+    ctaLabel: z.string().optional(),
+    ctaHref: z.string().optional(),
+    enabled: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { posts, hero, catalog, journal, about };

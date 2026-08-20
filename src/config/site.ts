@@ -85,6 +85,16 @@ export const taller = {
     enabled: true,
   },
 
+  // Sección "¿Qué es [taller]?" (imagen + texto + botón) debajo del hero.
+  // Los bloques salen de src/content/about/*.md(x) — acá sólo se
+  // prende/apaga la sección entera. Cada bloque se prende/apaga individual
+  // con su propio `enabled` en el frontmatter.
+  about: {
+    enabled: true,
+    // Esquema de color (rosa | acido | azul | negro).
+    colorScheme: 'negro' as const,
+  },
+
   // Sección de catálogo (productos + servicios) debajo del hero. Los
   // ítems salen de src/content/catalog/*.md. `limit` es cuántos se
   // muestran en la home antes del botón "Ver todo" (que linkea a
