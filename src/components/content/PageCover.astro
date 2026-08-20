@@ -1,0 +1,193 @@
+---
+// Portada con imagen de fondo para meter DENTRO del contenido de una
+// página (Nosotros, etc) — a diferencia de un layout tipo fanzine, esto
+// no se sale del ancho de la página: es un bloque más, con el mismo
+// borde/radio que el resto de las tarjetas del sitio. La página sigue
+// viéndose como una página normal (título arriba, texto abajo); adentro
+// del contenido podés meter una o varias de estas para separar secciones.
+//
+// 3 variantes:
+//  - cover: banner grande, título abajo — para abrir la página o una
+//    sección larga.
+//  - band: franja más chica y centrada, para cortar el texto a la mitad.
+//  - insert: recuadro tipo foto pegada, un poco rotado, con caption chico.
+//
+// Uso en MDX:
+// <PageCover variant="cover" src="/img/taller-fachada.jpg" alt="Fachada del taller"
+//   tag="Bujía Project Music" title="Quiénes somos" />
+interface Props {
+  src: string;
+  alt: string;
+  title?: string;
+  tag?: string;
+  subtitle?: string;
+  variant?: 'cover' | 'band' | 'insert';
+  colorScheme?: 'rosa' | 'acido' | 'azul' | 'negro';
+  /** Apaga el degradé oscuro sobre la imagen (para fotos ya de por sí oscuras). */
+  overlay?: boolean;
+}
+const {
+  src,
+  alt,
+  title,
+  tag,
+  subtitle,
+  variant = 'cover',
+  colorScheme,
+  overlay = true,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'page-cover',
+    `page-cover--${variant}`,
+    colorScheme && `scheme-${colorScheme}`,
+    !overlay && 'page-cover--no-overlay',
+  ]}
+>
+  <img class="page-cover__img" src={src} alt={alt} loading="lazy" />
+  {overlay && <span class="page-cover__overlay" aria-hidden="true" />}
+
+  {(title || tag || subtitle) && (
+    <div class="page-cover__content">
+      {tag && <span class="page-cover__tag">{tag}</span>}
+      {title && (
+        <p class="page-cover__title" role="heading" aria-level="2">
+          {title}
+        </p>
+      )}
+      {subtitle && <p class="page-cover__subtitle">{subtitle}</p>}
+    </div>
+  )}
+</div>
+
+<style>
+  .page-cover {
+    position: relative;
+    margin: 2.5rem 0;
+    overflow: hidden;
+    color: #fff;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    isolation: isolate;
+  }
+  .page-cover__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .page-cover__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .page-cover__tag {
+    display: inline-block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .page-cover__title {
+    position: relative;
+    z-index: 1;
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin: 0;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+  }
+  .page-cover__subtitle {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+  }
+  .page-cover__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── cover: banner grande para abrir la página o una sección larga ──── */
+  .page-cover--cover {
+    min-height: clamp(260px, 42vw, 460px);
+    display: flex;
+    align-items: flex-end;
+  }
+  .page-cover--cover .page-cover__overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.25) 55%,
+      rgba(0, 0, 0, 0.05) 80%
+    );
+  }
+  .page-cover--cover .page-cover__content {
+    padding: 1.6rem 1.8rem;
+  }
+  .page-cover--cover .page-cover__title {
+    font-size: clamp(1.8rem, 6vw, 3.2rem);
+  }
+
+  /* ── band: franja chica y centrada, para cortar texto a la mitad ────── */
+  .page-cover--band {
+    min-height: clamp(140px, 22vw, 220px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .page-cover--band .page-cover__overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .page-cover--band.scheme-rosa .page-cover__overlay,
+  .page-cover--band.scheme-acido .page-cover__overlay,
+  .page-cover--band.scheme-azul .page-cover__overlay {
+    background: color-mix(in srgb, var(--accent) 40%, rgba(0, 0, 0, 0.55));
+  }
+  .page-cover--band .page-cover__content {
+    padding: 1.2rem 1.5rem;
+  }
+  .page-cover--band .page-cover__title {
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
+  }
+
+  /* ── insert: recuadro tipo foto pegada, rotado, con caption chico ───── */
+  .page-cover--insert {
+    max-width: 420px;
+    min-height: clamp(220px, 30vw, 300px);
+    transform: rotate(-1.5deg);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: flex-end;
+  }
+  .page-cover--insert .page-cover__overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 55%);
+  }
+  .page-cover--insert .page-cover__content {
+    padding: 1rem 1.2rem;
+  }
+  .page-cover--insert .page-cover__tag {
+    background: var(--paper, #fff);
+    color: var(--ink, #000);
+    padding: 0.25em 0.7em;
+  }
+  .page-cover--insert .page-cover__title {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+  }
+
+  .page-cover--no-overlay .page-cover__overlay {
+    display: none;
+  }
+</style>

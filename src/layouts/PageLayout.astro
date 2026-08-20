@@ -1,9 +1,11 @@
 ---
 // Layout para páginas sueltas (Nosotros, Privacidad, etc) escritas en
-// .mdx. A diferencia de PostLayout, acá no hay fecha/volumen/tags ni
-// botón de "Descargar PDF" — es una página, no una entrada del fanzine.
-// El contenido controla su propio orden visual con <PageSpread /> y texto
-// normal de Markdown (que cae en el ancho de lectura de .page-body).
+// .mdx. Se ve como un post normal del sitio — título arriba, contenido
+// abajo, todo dentro de .container — no como el layout de fanzine
+// (ese es fanzine:true en PostLayout, para los posts del zine). Adentro
+// del contenido se pueden meter <PageCover /> u otros componentes de
+// src/components/content/ para dar variedad visual sin salirse del
+// formato de página.
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -16,8 +18,14 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title} description={description}>
   <article class="page">
-    <div class="page-body post-body">
-      <slot />
+    <div class="container">
+      <header class="page__header">
+        <h1 class="page__title">{title}</h1>
+      </header>
+
+      <div class="post-body">
+        <slot />
+      </div>
     </div>
   </article>
 </BaseLayout>
@@ -25,23 +33,13 @@ const { title, description } = Astro.props;
 <style>
   .page {
     background: var(--paper);
-    padding-bottom: 2.5rem;
+    padding: 2.5rem 0;
   }
-  /* El texto (párrafos, h2/h3, <h1> del título) queda en columna angosta
-     de lectura, igual que un post. <PageSpread /> se sale de acá con su
-     propio breakout a 100vw sin importar este padding. */
-  .page-body {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2.5rem 24px 0;
-  }
-  /* Por si una página no abre con <PageSpread> y escribe # Título a mano. */
-  .page-body :global(h1) {
+  .page__title {
     font-family: var(--font-head);
     font-weight: 700;
     text-transform: uppercase;
     font-size: clamp(1.8rem, 5vw, 3rem);
-    margin: 0 0 1rem;
-    text-align: left;
+    margin: 0 0 1.5rem;
   }
 </style>

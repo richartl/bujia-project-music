@@ -235,29 +235,30 @@ Si tu pastilla suena apagada, probá primero limpiando los contactos.
 
 ---
 
-## 8. Portadas de página suelta (`PageSpread`)
+## 8. Portadas dentro de una página suelta (`PageCover`)
 
-Distinto de `PostCover`: no es un título metido en el ancho de lectura,
-sino un bloque que se sale a todo el ancho de la pantalla (full-bleed)
-con una foto de fondo, para páginas sueltas tipo "Nosotros" — pensado
-para que se sienta largo como abrir una revista, y para poder repetirlo
-varias veces y cortar la página en "secciones" tipo fanzine.
+Para páginas sueltas tipo "Nosotros" — la página en sí se ve como
+cualquier otra del sitio (título arriba, contenido en columna de
+lectura, dentro de `.container`), **no** toma el formato de fanzine.
+`PageCover` es un bloque más dentro de ese contenido: una tarjeta con
+foto de fondo y título encima, con el mismo borde/radio que el resto de
+tarjetas del sitio (no se sale del ancho de la página). Se puede meter
+una o varias veces entre los párrafos para separar secciones.
 
 ```mdx
-import PageSpread from '../../components/content/PageSpread.astro';
+import PageCover from '../../components/content/PageCover.astro';
 
-{/* cover: portada larga (min-height ~92vh), título gigante abajo */}
-<PageSpread
+{/* cover: banner grande, para abrir la página o una sección larga */}
+<PageCover
   variant="cover"
   src="/img/taller-fachada.jpg"
   alt="Fachada del taller"
   tag="Bujía Project Music"
-  title="Nosotros"
-  subtitle="Texcoco, Edo. Méx."
+  title="Quiénes somos"
 />
 
-{/* band: franja más corta, para separar secciones a la mitad de la página */}
-<PageSpread
+{/* band: franja más chica y centrada, para cortar el texto a la mitad */}
+<PageCover
   variant="band"
   src="/img/banco-de-trabajo.jpg"
   alt="Banco de trabajo del taller"
@@ -265,8 +266,8 @@ import PageSpread from '../../components/content/PageSpread.astro';
   colorScheme="acido"
 />
 
-{/* insert: encarte fotográfico con bordes rasgados, texto en una esquina */}
-<PageSpread
+{/* insert: recuadro tipo foto pegada, un poco rotado, con caption chico */}
+<PageCover
   variant="insert"
   src="/img/detalle-pastilla.jpg"
   alt="Detalle de una pastilla rebobinada"
@@ -279,9 +280,6 @@ Props: `src` y `alt` (obligatorios), `title?`, `tag?`, `subtitle?`,
 `variant?` (`cover` | `band` | `insert`, default `cover`), `colorScheme?`
 (`rosa` | `acido` | `azul` | `negro`), `overlay?` (boolean, default
 `true` — apagalo si la foto ya es oscura y no necesita el degradé).
-
-Se puede meter el número de veces que quieras en un mismo `.mdx`, entre
-párrafos normales de texto, para armar una página larga tipo revista.
 
 ---
 
