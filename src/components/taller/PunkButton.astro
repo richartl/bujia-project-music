@@ -1,0 +1,29 @@
+---
+// Botón/link tipo píldora reutilizable (fondo de acento, borde grueso).
+// Usalo para cualquier CTA del taller: "Ver todo", CTAs del hero, etc.
+interface Props {
+  href: string;
+  label: string;
+  class?: string;
+}
+const { href, label, class: className } = Astro.props;
+---
+
+<a href={href} class:list={['punk-btn', className]}>{label}</a>
+
+<style>
+  .punk-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--accent);
+    color: var(--ink);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    padding: 0.7em 1.8em;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+</style>

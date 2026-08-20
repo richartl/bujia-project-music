@@ -1,0 +1,191 @@
+---
+// Portada/título grande para abrir un post o una sección larga dentro de
+// un post. 5 variantes bien distintas, todas punk/DIY. Ver
+// COMPONENTES_MDX.md en la raíz del repo para ejemplos de uso completos.
+//
+// Uso en MDX:
+// <PostCover variant="stamp" title="Diario de taller" tag="Vol. 04" colorScheme="acido" />
+interface Props {
+  title: string;
+  subtitle?: string;
+  tag?: string;
+  variant?: 'sticker' | 'stamp' | 'tape' | 'xerox' | 'flyer';
+  colorScheme?: 'rosa' | 'acido' | 'azul' | 'negro';
+}
+const { title, subtitle, tag, variant = 'sticker', colorScheme } = Astro.props;
+---
+
+<div class:list={['post-cover', `post-cover--${variant}`, colorScheme && `scheme-${colorScheme}`]}>
+  {variant === 'flyer' && <span class="post-cover__flyer-bg" aria-hidden="true" />}
+  {variant === 'xerox' && <span class="post-cover__xerox-title" aria-hidden="true">{title}</span>}
+
+  {tag && <span class="post-cover__tag">{tag}</span>}
+  <p class="post-cover__title" role="heading" aria-level="2">{title}</p>
+  {subtitle && <p class="post-cover__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .post-cover {
+    position: relative;
+    margin: 2.5rem 0;
+    padding: 2.2rem 1.5rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  /* Especificidad extra (.post-cover ancestor) a propósito: dentro de
+     .post-body, las reglas globales para <p> tienen la misma o mayor
+     especificidad que una sola clase y pisarían el margin/align acá. */
+  .post-cover .post-cover__title {
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: inherit;
+    line-height: 1;
+    margin: 0;
+    font-size: clamp(2rem, 8vw, 3.6rem);
+  }
+  .post-cover .post-cover__subtitle {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: 0.03em;
+    font-size: 0.9rem;
+    margin: 0.7rem 0 0;
+  }
+  .post-cover__tag {
+    display: inline-block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── sticker: banda punteada + título tipo sticker con sombra dura ─── */
+  .post-cover--sticker {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1.5px, transparent 1.5px);
+    background-size: 15px 15px;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    background-color: var(--paper);
+    color: var(--ink);
+  }
+  .post-cover--sticker .post-cover__tag {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.4em 1em;
+    transform: rotate(-1deg);
+  }
+  .post-cover--sticker .post-cover__title {
+    display: inline-block;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 0.3em 0.7em;
+    transform: rotate(-1.3deg);
+  }
+
+  /* ── stamp: sello de goma, borde doble grueso, todo rotado ──────────── */
+  .post-cover--stamp {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    padding: 1.8rem 2.2rem;
+    border: 4px double var(--ink, #000);
+    border-radius: 999px / 60%;
+    transform: rotate(-4deg);
+    color: var(--ink);
+  }
+  .post-cover--stamp .post-cover__tag {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 0.2em 0;
+  }
+  .post-cover--stamp .post-cover__title {
+    letter-spacing: 0.04em;
+  }
+
+  /* ── tape: tira de cinta pegada, bordes en zigzag, apenas inclinada ── */
+  .post-cover--tape {
+    background: var(--accent);
+    color: var(--ink);
+    clip-path: polygon(
+      0% 15%, 3% 0%, 8% 12%, 14% 2%, 20% 14%, 27% 3%, 34% 13%, 41% 2%,
+      48% 14%, 55% 3%, 62% 13%, 69% 2%, 76% 14%, 83% 3%, 90% 13%, 97% 2%, 100% 15%,
+      100% 85%, 97% 100%, 90% 88%, 83% 98%, 76% 87%, 69% 99%, 62% 88%, 55% 98%,
+      48% 87%, 41% 99%, 34% 88%, 27% 98%, 20% 87%, 14% 99%, 8% 88%, 3% 99%, 0% 85%
+    );
+    transform: rotate(-1.5deg);
+    padding: 2.5rem 2rem;
+  }
+  .post-cover--tape .post-cover__tag {
+    opacity: 0.75;
+  }
+
+  /* ── xerox: fotocopiado/glitch — título fantasma duplicado detrás ──── */
+  .post-cover--xerox {
+    background: #111;
+    color: #fff;
+    padding: 3rem 1.5rem;
+  }
+  .post-cover--xerox .post-cover__tag {
+    color: #fff;
+    opacity: 0.7;
+  }
+  .post-cover--xerox .post-cover__title {
+    position: relative;
+    color: #fff;
+  }
+  .post-cover__xerox-title {
+    position: absolute;
+    top: 2.9rem;
+    left: 50%;
+    transform: translateX(calc(-50% + 5px)) scaleX(1.01);
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1;
+    font-size: clamp(2rem, 8vw, 3.6rem);
+    color: #ff2f92;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* ── flyer: cartel de tocada, bloque diagonal partido a dos colores ── */
+  .post-cover--flyer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 1.5rem;
+  }
+  .post-cover__flyer-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, var(--accent) 0 45%, transparent 45.5%);
+    z-index: 0;
+  }
+  .post-cover--flyer .post-cover__tag,
+  .post-cover--flyer .post-cover__title,
+  .post-cover--flyer .post-cover__subtitle {
+    position: relative;
+    z-index: 1;
+  }
+  .post-cover--flyer .post-cover__tag {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.3em 0.9em;
+  }
+
+  @media (max-width: 640px) {
+    .post-cover--stamp {
+      padding: 1.3rem 1.4rem;
+    }
+    .post-cover__xerox-title {
+      display: none;
+    }
+  }
+</style>

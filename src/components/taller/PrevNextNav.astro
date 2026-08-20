@@ -1,0 +1,97 @@
+---
+// Barra de navegación anterior/siguiente entre ítems (productos, posts,
+// lo que sea). Reutilizable: si falta prevHref o nextHref, ese lado
+// queda vacío en vez de romper el layout.
+interface Props {
+  prevHref?: string;
+  prevLabel?: string;
+  nextHref?: string;
+  nextLabel?: string;
+}
+const { prevHref, prevLabel, nextHref, nextLabel } = Astro.props;
+---
+
+{
+  (prevHref || nextHref) && (
+    <nav class="prev-next-nav" aria-label="Navegación entre ítems">
+      {prevHref ? (
+        <a href={prevHref} class="prev-next-nav__item prev-next-nav__item--prev">
+          <span class="prev-next-nav__arrow" aria-hidden="true">←</span>
+          <span>
+            <span class="prev-next-nav__eyebrow">Anterior</span>
+            <span class="prev-next-nav__label">{prevLabel}</span>
+          </span>
+        </a>
+      ) : (
+        <span />
+      )}
+
+      {nextHref ? (
+        <a href={nextHref} class="prev-next-nav__item prev-next-nav__item--next">
+          <span>
+            <span class="prev-next-nav__eyebrow">Siguiente</span>
+            <span class="prev-next-nav__label">{nextLabel}</span>
+          </span>
+          <span class="prev-next-nav__arrow" aria-hidden="true">→</span>
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .prev-next-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: var(--border-w) solid var(--ink);
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+  }
+  .prev-next-nav__item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    max-width: 46%;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .prev-next-nav__item--next {
+    margin-left: auto;
+    text-align: right;
+    flex-direction: row-reverse;
+  }
+  .prev-next-nav__arrow {
+    flex: none;
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+  .prev-next-nav__eyebrow {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+    opacity: 0.6;
+  }
+  .prev-next-nav__label {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 720px) {
+    .prev-next-nav__item {
+      max-width: 48%;
+    }
+    .prev-next-nav__label {
+      font-size: 0.8rem;
+    }
+  }
+</style>

@@ -17,6 +17,16 @@
   font-display: swap;
 }
 
+/* Anton self-hosted: display font tipo cartel/flyer punk para títulos
+   destacados (ej. el título de la sección de catálogo del taller). */
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/anton-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -51,6 +61,16 @@ a {
   padding: 0 24px;
 }
 
+/* Versión ancha del container, para secciones tipo catálogo donde el
+   contenido (grillas de tarjetas, etc) se ve chico si lo limitamos al
+   ancho de lectura de 900px de los posts. */
+.container-wide {
+  container-type: inline-size;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 /* ── Cuerpo del post: justificado + guionado, como en Ghost ──────────── */
 .post-body {
   font-family: var(--font-body);
@@ -59,6 +79,48 @@ a {
 }
 .post-body p {
   margin: 0 0 0.85em;
+}
+
+/* ── Encabezados punk: escribí ##/###/#### normal en Markdown y salen
+   así, sin necesidad de ningún componente ─────────────────────────── */
+.post-body h2 {
+  font-family: 'Anton', var(--font-head);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  line-height: 1.05;
+  margin: 2.2rem 0 0.9rem;
+  padding-bottom: 0.3em;
+  border-bottom: var(--border-w) solid var(--ink);
+  text-align: left;
+}
+.post-body h3 {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.15rem;
+  background: var(--accent);
+  color: var(--ink);
+  padding: 0.15em 0.6em;
+  margin: 1.8rem 0 0.8rem;
+  transform: rotate(-1deg);
+  text-align: left;
+}
+.post-body h4 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  margin: 1.5rem 0 0.6rem;
+  text-align: left;
+}
+.post-body h4::before {
+  content: '// ';
+  color: var(--accent);
 }
 
 /* Dropcap del primer párrafo (equivalente al snippet "dropcap opener") */

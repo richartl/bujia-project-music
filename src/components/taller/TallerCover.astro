@@ -1,0 +1,147 @@
+---
+// "Portada" reutilizable para títulos de sección del taller, con la
+// estética de portada de fanzine: banner de color + tag tipo cinta +
+// título tipo sticker inclinado + barra de subtítulo + tag de crédito.
+// Envuelve además el contenido de la página (slot) dentro del mismo
+// contenedor con borde grueso redondeado — así "al entrar a la sección"
+// todo queda encerrado en una sola tarjeta, como los posts del fanzine.
+//
+// Uso:
+// <TallerCover tag="Catálogo" title="Nuestro catálogo" subtitle="Productos y servicios hechos a mano">
+//   ...contenido de la página...
+// </TallerCover>
+interface Props {
+  tag?: string;
+  title: string;
+  subtitle?: string;
+  credit?: string;
+  colorScheme?: 'rosa' | 'acido' | 'azul' | 'negro';
+}
+
+const { tag, title, subtitle, credit, colorScheme = 'rosa' } = Astro.props;
+---
+
+<section class={`taller-cover scheme-${colorScheme}`}>
+  <header class="taller-cover__header">
+    <div class="taller-cover__banner" aria-hidden="true"></div>
+    {tag && <p class="taller-cover__tag">[{tag.toUpperCase()}]</p>}
+
+    <div class="taller-cover__title-wrap">
+      <h1 class="taller-cover__title">{title}</h1>
+    </div>
+
+    {subtitle && <p class="taller-cover__subtitle">{subtitle}</p>}
+    {credit && <p class="taller-cover__credit">[{credit}]</p>}
+  </header>
+
+  <div class="taller-cover__body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .taller-cover {
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--paper);
+    margin: 2rem auto 3rem;
+  }
+
+  .taller-cover__header {
+    position: relative;
+    background: var(--paper);
+    background-image: radial-gradient(rgba(0, 0, 0, 0.18) 1px, transparent 1px);
+    background-size: 16px 16px;
+    padding-bottom: 2.2rem;
+    overflow: hidden;
+  }
+  .taller-cover__banner {
+    height: 80px;
+    background: var(--accent);
+    border-bottom: var(--border-w) solid var(--ink);
+  }
+  .taller-cover__tag {
+    position: absolute;
+    top: 48px;
+    left: -6px;
+    right: -6px;
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 0.55em 1.6rem;
+    transform: rotate(-1.1deg);
+  }
+
+  .taller-cover__title-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 2.6rem 1.5rem 1rem;
+  }
+  .taller-cover__title {
+    display: inline-block;
+    max-width: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    transform: rotate(-1.3deg);
+    padding: 0.35em 0.9em;
+    margin: 0;
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-align: center;
+    font-size: clamp(1.6rem, 6vw, 3rem);
+    overflow-wrap: break-word;
+  }
+
+  .taller-cover__subtitle {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    margin: 0 1.5rem;
+    padding: 0.65em 1rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+  .taller-cover__credit {
+    text-align: right;
+    margin: 0.9rem 1.5rem 0;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    opacity: 0.65;
+  }
+
+  .taller-cover__body {
+    background: var(--paper);
+    padding: 1.6rem 1.5rem 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .taller-cover__banner {
+      height: 60px;
+    }
+    .taller-cover__tag {
+      top: 36px;
+      font-size: 0.65rem;
+      padding: 0.5em 1.1rem;
+    }
+    .taller-cover__title-wrap {
+      margin-top: 2.6rem;
+    }
+    .taller-cover__body {
+      padding: 1.5rem 1rem 2rem;
+    }
+  }
+</style>

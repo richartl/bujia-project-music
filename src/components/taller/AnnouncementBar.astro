@@ -1,0 +1,138 @@
+---
+// Franja de anuncios arriba del header: mensajes navegables con flechas
+// (y opcionalmente rotación automática). Los mensajes y el intervalo de
+// autoplay salen de `taller.announcementBar` en src/config/site.ts.
+// Si `enabled` es false o no hay mensajes, el componente no renderiza nada.
+import { taller } from '../../config/site';
+
+const { enabled, messages, autoplayMs } = taller.announcementBar;
+const showNav = messages.length > 1;
+---
+
+{
+  enabled && messages.length > 0 && (
+    <div class="ann-bar" id="ann-bar" data-autoplay-ms={autoplayMs || 0}>
+      <div class="container ann-bar__in">
+        {showNav && (
+          <button type="button" class="ann-bar__btn" id="ann-bar-prev" aria-label="Mensaje anterior">
+            ‹
+          </button>
+        )}
+
+        <div class="ann-bar__viewport">
+          <ul class="ann-bar__list" id="ann-bar-list">
+            {messages.map((msg) => (
+              <li class="ann-bar__item">{msg}</li>
+            ))}
+          </ul>
+        </div>
+
+        {showNav && (
+          <button type="button" class="ann-bar__btn" id="ann-bar-next" aria-label="Mensaje siguiente">
+            ›
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .ann-bar {
+    background: #000;
+    color: #fff;
+  }
+  .ann-bar__in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+  .ann-bar__btn {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: none;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: var(--font-head);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .ann-bar__viewport {
+    overflow: hidden;
+    max-width: 640px;
+    width: 100%;
+  }
+  .ann-bar__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.35s ease;
+  }
+  .ann-bar__item {
+    flex: none;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 720px) {
+    .ann-bar__viewport {
+      max-width: none;
+    }
+    .ann-bar__item {
+      white-space: normal;
+    }
+  }
+</style>
+
+<script>
+  function setupAnnouncementBar() {
+    const bar = document.getElementById('ann-bar');
+    const list = document.getElementById('ann-bar-list');
+    if (!bar || !list) return;
+
+    const items = list.children.length;
+    if (items === 0) return;
+
+    let index = 0;
+    const render = () => {
+      list.style.transform = `translateX(-${index * 100}%)`;
+    };
+
+    document.getElementById('ann-bar-prev')?.addEventListener('click', () => {
+      index = (index - 1 + items) % items;
+      render();
+    });
+    document.getElementById('ann-bar-next')?.addEventListener('click', () => {
+      index = (index + 1) % items;
+      render();
+    });
+
+    const autoplayMs = Number(bar.dataset.autoplayMs || 0);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (autoplayMs > 0 && items > 1 && !reduceMotion) {
+      setInterval(() => {
+        index = (index + 1) % items;
+        render();
+      }, autoplayMs);
+    }
+  }
+
+  setupAnnouncementBar();
+  document.addEventListener('astro:page-load', setupAnnouncementBar);
+</script>

@@ -1,0 +1,57 @@
+---
+// Separador entre secciones de un post. 4 variantes.
+// Uso: <Divider variant="zigzag" />
+interface Props {
+  variant?: 'zigzag' | 'dashed' | 'stars' | 'tape';
+}
+const { variant = 'zigzag' } = Astro.props;
+---
+
+<div class:list={['divider', `divider--${variant}`]} role="separator">
+  {variant === 'stars' && <span class="divider__stars" aria-hidden="true">✦ ✦ ✦</span>}
+  {variant === 'tape' && <span class="divider__tape" aria-hidden="true" />}
+</div>
+
+<style>
+  .divider {
+    margin: 2.5rem 0;
+    height: 12px;
+  }
+
+  .divider--zigzag {
+    background-image: linear-gradient(135deg, var(--ink) 25%, transparent 25%),
+      linear-gradient(225deg, var(--ink) 25%, transparent 25%);
+    background-position: 0 0;
+    background-size: 14px 12px;
+    background-repeat: repeat-x;
+  }
+
+  .divider--dashed {
+    height: 0;
+    border-top: 3px dashed var(--ink);
+    margin: 2.5rem 0;
+  }
+
+  .divider--stars {
+    height: auto;
+    text-align: center;
+    letter-spacing: 1em;
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .divider--tape {
+    position: relative;
+    height: 20px;
+    background: none;
+  }
+  .divider__tape {
+    display: block;
+    height: 20px;
+    width: 90px;
+    margin: 0 auto;
+    background: var(--accent);
+    opacity: 0.85;
+    transform: rotate(-2deg);
+  }
+</style>

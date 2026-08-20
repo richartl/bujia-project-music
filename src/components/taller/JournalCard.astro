@@ -1,0 +1,148 @@
+---
+// Tarjeta de un post de la bitácora del taller. Se reusa en la home
+// (JournalSection) y en /archive (listado completo).
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  post: CollectionEntry<'journal'>;
+  href: string;
+  image: string;
+}
+const { post, href, image } = Astro.props;
+const { title, date, tag, author, excerpt } = post.data;
+
+const MESES = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+const dateLabel = `${MESES[date.getMonth()]}. ${date.getDate()}`;
+---
+
+<a href={href} class="journal-card">
+  <div class="journal-card__meta">
+    <span class="journal-card__date">
+      <Icon name="calendar" class="taller-icon" />
+      {dateLabel}
+    </span>
+    <span class="journal-card__dash" aria-hidden="true" />
+    <span class="journal-card__tag">{tag}</span>
+  </div>
+
+  <div class="journal-card__img" style={`background-image:url(${image})`} />
+
+  <h3 class="journal-card__title">{title}</h3>
+  <p class="journal-card__author">{author}</p>
+  {excerpt && <p class="journal-card__excerpt">{excerpt}</p>}
+
+  <span class="journal-card__more" aria-hidden="true">
+    <span class="journal-card__more-line" />
+    <span class="journal-card__more-dots">•••</span>
+    <span class="journal-card__more-line" />
+  </span>
+</a>
+
+<style>
+  .journal-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink);
+    background: #fff;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .journal-card:hover {
+    box-shadow: 6px 6px 0 var(--ink);
+    transform: translate(-3px, -3px);
+  }
+
+  .journal-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+  }
+  .journal-card__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+  }
+  .journal-card__date :global(.taller-icon) {
+    width: 15px;
+    height: 15px;
+  }
+  .journal-card__dash {
+    width: 18px;
+    height: 3px;
+    background: var(--logo-color, #ff5b52);
+    flex: none;
+  }
+  .journal-card__tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .journal-card__img {
+    aspect-ratio: 16 / 11;
+    background-color: rgba(127, 127, 127, 0.15);
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--ink);
+    border-radius: calc(var(--radius) - 6px);
+    margin-bottom: 1rem;
+  }
+
+  .journal-card__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    margin: 0 0 0.4rem;
+  }
+  .journal-card__author {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin: 0 0 0.7rem;
+  }
+  .journal-card__excerpt {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    flex: 1;
+  }
+
+  .journal-card__more {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: auto;
+  }
+  .journal-card__more-line {
+    flex: 1;
+    height: 2px;
+    background: var(--ink);
+    opacity: 0.5;
+  }
+  .journal-card__more-dots {
+    flex: none;
+    background: var(--accent);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.15em 0.9em;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+  }
+</style>

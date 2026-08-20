@@ -1,0 +1,131 @@
+---
+// Video de YouTube metido en una "tele vieja" (marco grueso, perillas,
+// antena, brillo de pantalla CRT). Pasale el ID del video de YouTube.
+// Uso: <VideoOldTV id="dQw4w9WgXcQ" title="Tributo a Lagwagon en el taller" />
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<div class="old-tv">
+  <div class="old-tv__antenna" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+  <div class="old-tv__body">
+    <div class="old-tv__screen">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${id}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      />
+      <span class="old-tv__scanlines" aria-hidden="true" />
+    </div>
+    <div class="old-tv__panel" aria-hidden="true">
+      <span class="old-tv__knob" />
+      <span class="old-tv__knob" />
+      <span class="old-tv__speaker" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .old-tv {
+    max-width: 640px;
+    margin: 2.5rem auto;
+  }
+  .old-tv__antenna {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    height: 30px;
+  }
+  .old-tv__antenna span {
+    display: block;
+    width: 3px;
+    height: 30px;
+    background: var(--ink);
+  }
+  .old-tv__antenna span:first-child {
+    transform-origin: bottom;
+    transform: rotate(-25deg);
+  }
+  .old-tv__antenna span:last-child {
+    transform-origin: bottom;
+    transform: rotate(25deg);
+  }
+  .old-tv__body {
+    display: flex;
+    gap: 0.8rem;
+    background: #d8cdb8;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .old-tv__screen {
+    position: relative;
+    flex: 1;
+    aspect-ratio: 4 / 3;
+    background: #000;
+    border: 6px solid #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .old-tv__screen iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .old-tv__scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+  }
+  .old-tv__panel {
+    width: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .old-tv__knob {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #efe4c8;
+    border: 2px solid var(--ink);
+  }
+  .old-tv__speaker {
+    width: 26px;
+    height: 40px;
+    background-image: repeating-linear-gradient(to bottom, var(--ink) 0 2px, transparent 2px 6px);
+  }
+
+  @media (max-width: 480px) {
+    .old-tv__body {
+      padding: 0.7rem;
+    }
+    .old-tv__panel {
+      width: 32px;
+      gap: 10px;
+    }
+    .old-tv__knob {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>

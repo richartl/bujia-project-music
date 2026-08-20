@@ -1,0 +1,70 @@
+---
+// Foto "fotocopiada": alto contraste, blanco y negro duro, grano y un
+// sello de "COPIA" en la esquina — estética de zine hecho en la
+// fotocopiadora del trabajo.
+// Uso: <Xerox src="/img/ampli.jpg" alt="Ampli desarmado" caption="Ampli desarmado" />
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="xerox-photo">
+  <span class="xerox-photo__frame">
+    <img src={src} alt={alt} loading="lazy" />
+    <span class="xerox-photo__grain" aria-hidden="true" />
+    <span class="xerox-photo__stamp">Copia</span>
+  </span>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .xerox-photo {
+    margin: 2rem 0;
+  }
+  .xerox-photo__frame {
+    position: relative;
+    display: block;
+    border: 3px solid var(--ink);
+  }
+  .xerox-photo__frame img {
+    width: 100%;
+    display: block;
+    filter: grayscale(1) contrast(1.9) brightness(1.05);
+  }
+  .xerox-photo__grain {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .xerox-photo__stamp {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    background: #fff;
+    color: #000;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 0.25em 0.6em;
+    border: 2px solid #000;
+    transform: rotate(-4deg);
+  }
+  .xerox-photo figcaption {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-align: center;
+    opacity: 0.7;
+    margin-top: 0.6rem;
+  }
+</style>

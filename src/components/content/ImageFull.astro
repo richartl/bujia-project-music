@@ -1,0 +1,36 @@
+---
+// Imagen grande a todo el ancho, tipo portada. Para fotos que merecen
+// protagonismo (el resultado final de un proyecto, una foto de grupo, etc).
+// Uso: <ImageFull src="/img/telecaster-final.jpg" alt="Telecaster terminada" caption="Terminada, mayo 2026" />
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="img-full">
+  <img src={src} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .img-full {
+    margin: 2rem 0;
+  }
+  .img-full img {
+    width: 100%;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+  }
+  .img-full figcaption {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-align: center;
+    opacity: 0.7;
+    margin-top: 0.6rem;
+  }
+</style>

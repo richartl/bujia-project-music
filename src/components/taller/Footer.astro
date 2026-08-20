@@ -1,0 +1,269 @@
+---
+// Footer del sitio del taller: newsletter (opcional), contacto (opcional),
+// redes sociales, links legales y copyright. Fondo negro, a tono con el
+// header fijo. Todo sale de taller.footer / taller.social en
+// src/config/site.ts — acá sólo se arma el markup según lo que esté
+// habilitado.
+import { taller } from '../../config/site';
+import Icon from './Icon.astro';
+
+const { newsletter, contact, legalLinks } = taller.footer;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => `${base}${href}`;
+
+const contactRows = contact.enabled
+  ? [
+      { label: 'Dirección', value: contact.address },
+      { label: 'Teléfono', value: contact.phone },
+      { label: 'Correo', value: contact.email },
+      { label: 'Horario', value: contact.hours },
+    ].filter((row) => row.value)
+  : [];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="taller-footer">
+  {
+    newsletter.enabled && (
+      <div class="taller-footer__row taller-footer__row--newsletter">
+        <div class="taller-footer__container taller-footer__newsletter">
+          <div class="taller-footer__newsletter-form">
+            <p class="taller-footer__title">{newsletter.title}</p>
+            <form class="taller-footer__form" action={newsletter.action || undefined} method="post">
+              <input
+                type="email"
+                name="email"
+                placeholder={newsletter.placeholder}
+                required
+                class="taller-footer__input"
+              />
+              <button type="submit" class="taller-footer__submit" aria-label="Suscribirme">
+                →
+              </button>
+            </form>
+          </div>
+
+          {taller.social.length > 0 && (
+            <ul class="taller-footer__social">
+              {taller.social.map((s) => (
+                <li>
+                  <a href={s.href} aria-label={s.label} target="_blank" rel="noreferrer noopener">
+                    <Icon name={s.name} class="taller-icon" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    (contactRows.length > 0 || legalLinks.length > 0) && (
+      <div class="taller-footer__row">
+        <div class="taller-footer__container taller-footer__main">
+          {contactRows.length > 0 && (
+            <div class="taller-footer__contact">
+              <p class="taller-footer__label">Contacto</p>
+              <ul>
+                {contactRows.map((row) => (
+                  <li>
+                    <span class="taller-footer__contact-label">{row.label}:</span> {row.value}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {legalLinks.length > 0 && (
+            <ul class="taller-footer__legal">
+              {legalLinks.map((link) => (
+                <li>
+                  <a href={withBase(link.href)}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  <div class="taller-footer__row">
+    <div class="taller-footer__container taller-footer__bottom">
+      <p>© {year}, {taller.logo.text}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .taller-footer {
+    background: #000;
+    color: #fff;
+    margin-top: 4rem;
+    border-top: 6px solid #ff2f92;
+  }
+  .taller-footer a {
+    color: inherit;
+  }
+  .taller-footer__container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .taller-footer__row {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .taller-footer__row:first-child {
+    border-top: none;
+  }
+
+  /* ── Newsletter ─────────────────────────────────────────────────── */
+  .taller-footer__newsletter {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .taller-footer__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1rem;
+    color: #d4ff2f;
+    margin: 0 0 0.9rem;
+  }
+  .taller-footer__form {
+    display: flex;
+    border: 2px solid #ff2f92;
+    max-width: 360px;
+  }
+  .taller-footer__input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 0.7em 1em;
+  }
+  .taller-footer__input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .taller-footer__input:focus {
+    outline: none;
+  }
+  .taller-footer__submit {
+    flex: none;
+    background: #ff2f92;
+    border: none;
+    border-left: 2px solid #ff2f92;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0 1em;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .taller-footer__submit:hover {
+    background: #d4ff2f;
+  }
+  .taller-footer__social {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .taller-footer__social a {
+    display: inline-flex;
+    transition: color 0.15s ease;
+  }
+  .taller-footer__social a:hover {
+    color: #d4ff2f;
+  }
+  .taller-footer__social :global(.taller-icon) {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ── Contacto + legales ─────────────────────────────────────────── */
+  .taller-footer__main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .taller-footer__label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: #d4ff2f;
+    margin: 0 0 0.6rem;
+  }
+  .taller-footer__contact ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .taller-footer__contact-label {
+    opacity: 0.65;
+  }
+  .taller-footer__legal {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    align-self: flex-end;
+  }
+  .taller-footer__legal a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+  }
+  .taller-footer__legal a:hover {
+    color: #ff2f92;
+    text-decoration: underline;
+  }
+
+  /* ── Copyright ──────────────────────────────────────────────────── */
+  .taller-footer__bottom {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+  .taller-footer__bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .taller-footer__newsletter,
+    .taller-footer__main {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .taller-footer__form {
+      max-width: none;
+      width: 100%;
+    }
+    .taller-footer__legal {
+      align-self: flex-start;
+    }
+  }
+</style>

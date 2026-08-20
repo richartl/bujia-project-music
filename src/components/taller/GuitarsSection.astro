@@ -1,0 +1,90 @@
+---
+// Sección "Guitarras que construimos": modelos + precios, debajo del
+// hero. Los modelos salen de src/content/guitars/*.md — agregar/quitar/
+// editar uno es agregar/borrar/editar un .md ahí, sin tocar este
+// componente. Es independiente de about y de catalog: tiene su propia
+// posición en taller.homeSections y su propio esquema de color
+// (taller.guitars.colorScheme en site.ts). Cada modelo se prende/apaga
+// con su propio `enabled`; la sección entera se apaga con
+// taller.guitars.enabled.
+import { getCollection } from 'astro:content';
+import { taller } from '../../config/site';
+import GuitarCard from './GuitarCard.astro';
+import StickerTitle from './StickerTitle.astro';
+import PunkButton from './PunkButton.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+
+const allItems = taller.guitars.enabled ? await getCollection('guitars', ({ data }) => data.enabled) : [];
+const sorted = allItems.sort((a, b) => a.data.order - b.data.order);
+const items = sorted.slice(0, taller.guitars.limit);
+const hasMore = sorted.length > items.length;
+---
+
+{
+  items.length > 0 && (
+    <section class={`guitars-section scheme-${taller.guitars.colorScheme}`}>
+      <div class="container-wide guitars-section__in">
+        <header class="guitars-section__head">
+          <StickerTitle text={taller.guitars.title} />
+          {taller.guitars.subtitle && <p class="guitars-section__subtitle">{taller.guitars.subtitle}</p>}
+        </header>
+
+        <div class="guitars-grid">
+          {items.map((item) => (
+            <a href={withBase('/guitarras')} class="guitars-grid__link">
+              <GuitarCard item={item} />
+            </a>
+          ))}
+        </div>
+
+        {(hasMore || taller.guitars.ctaLabel) && (
+          <div class="guitars-section__cta-wrap">
+            <PunkButton href={withBase(taller.guitars.ctaHref)} label={taller.guitars.ctaLabel} />
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .guitars-section {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 3rem 0;
+  }
+  .guitars-section__head {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .guitars-section__subtitle {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    margin: 0.5rem 0 0;
+  }
+
+  .guitars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.1rem;
+  }
+  .guitars-grid__link {
+    display: block;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+  .guitars-grid__link:hover {
+    transform: translate(-3px, -3px);
+  }
+
+  .guitars-section__cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+// Tarjeta de un modelo de guitarra/bajo. Se reusa en la home
+// (GuitarsSection) y en /guitarras (listado completo).
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  item: CollectionEntry<'guitars'>;
+}
+
+const { item } = Astro.props;
+const { model, price, currency, image, type, specs, soldOut } = item.data;
+const formatPrice = (p: number, c: string) => `$${p.toLocaleString('es-MX')} ${c}`;
+---
+
+<div class="guitar-card">
+  <span class="guitar-card__img" style={`background-image:url(${image})`}>
+    {soldOut && <span class="guitar-card__badge">Vendida</span>}
+    <span class="guitar-card__type">{type}</span>
+  </span>
+  <span class="guitar-card__model">{model}</span>
+  {specs && <span class="guitar-card__specs">{specs}</span>}
+  {price != null && <span class="guitar-card__price">{formatPrice(price, currency)}</span>}
+</div>
+
+<style>
+  .guitar-card {
+    display: flex;
+    flex-direction: column;
+    color: var(--ink);
+  }
+  .guitar-card__img {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    background-color: rgba(127, 127, 127, 0.15);
+    background-size: cover;
+    background-position: center;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    margin-bottom: 0.8rem;
+  }
+  .guitar-card__badge {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 0.3em 0.7em;
+    border-radius: 999px;
+  }
+  .guitar-card__type {
+    position: absolute;
+    bottom: 0.7rem;
+    right: 0.7rem;
+    background: var(--accent);
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.7rem;
+    padding: 0.3em 0.7em;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+  .guitar-card__model {
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    line-height: 1.1;
+  }
+  .guitar-card__specs {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin-top: 0.25rem;
+  }
+  .guitar-card__price {
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1rem;
+    margin-top: 0.4rem;
+  }
+</style>

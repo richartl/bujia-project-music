@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import TallerLayout from '../../layouts/TallerLayout.astro';
+import TallerCover from '../../components/taller/TallerCover.astro';
+import SidebarBox from '../../components/taller/SidebarBox.astro';
+import RelatedItemRow from '../../components/taller/RelatedItemRow.astro';
+import FollowUsCard from '../../components/taller/FollowUsCard.astro';
+import PrevNextNav from '../../components/taller/PrevNextNav.astro';
+
+export async function getStaticPaths() {
+  const rawPosts = await getCollection('journal', ({ data }) => data.enabled);
+  const posts = rawPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      prevPost: posts[index - 1] ?? null,
+      nextPost: posts[index + 1] ?? null,
+      otherPosts: posts.filter((p) => p.slug !== post.slug).slice(0, 4),
+    },
+  }));
+}
+
+const { post, prevPost, nextPost, otherPosts } = Astro.props;
+const { Content } = await post.render();
+const { title, date, tag, cover, author, excerpt } = post.data;
+
+const dateLabel = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+---
+
+<TallerLayout title={title} description={excerpt}>
+  <div class="container-wide journal-detail-grid">
+    <TallerCover tag={tag} title={title} subtitle={`${dateLabel} · ${author}`} colorScheme="acido">
+      <article class="journal-detail">
+        <a href={withBase('/archive')} class="journal-detail__back">← Volver a Desde el taller</a>
+
+        <div class="journal-detail__cover" style={`background-image:url(${withBase(cover)})`} />
+
+        <div class="post-body">
+          <Content />
+        </div>
+
+        <PrevNextNav
+          prevHref={prevPost ? withBase(`/archive/${prevPost.slug}`) : undefined}
+          prevLabel={prevPost?.data.title}
+          nextHref={nextPost ? withBase(`/archive/${nextPost.slug}`) : undefined}
+          nextLabel={nextPost?.data.title}
+        />
+      </article>
+    </TallerCover>
+
+    <aside class="journal-detail__sidebar">
+      {otherPosts.length > 0 && (
+        <SidebarBox title="Más posts">
+          {otherPosts.map((other) => (
+            <RelatedItemRow
+              href={withBase(`/archive/${other.slug}`)}
+              image={withBase(other.data.cover)}
+              title={other.data.title}
+            />
+          ))}
+        </SidebarBox>
+      )}
+      <FollowUsCard />
+    </aside>
+  </div>
+
+  <style>
+    .journal-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      align-items: start;
+    }
+    .journal-detail__back {
+      display: inline-block;
+      text-decoration: none;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .journal-detail__cover {
+      aspect-ratio: 16 / 8;
+      background-color: rgba(127, 127, 127, 0.15);
+      background-size: cover;
+      background-position: center;
+      border: var(--border-w) solid var(--ink);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .journal-detail__sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 960px) {
+      .journal-detail-grid {
+        grid-template-columns: 1fr;
+      }
+      .journal-detail__sidebar {
+        margin-top: 0;
+      }
+    }
+  </style>
+</TallerLayout>

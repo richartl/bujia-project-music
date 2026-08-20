@@ -1,0 +1,79 @@
+---
+// Antes/Después: dos fotos lado a lado con etiquetas, para reparaciones
+// y restauraciones.
+// Uso: <BeforeAfter before="/img/antes.jpg" after="/img/despues.jpg" alt="Guitarra restaurada" />
+interface Props {
+  before: string;
+  after: string;
+  alt: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+const { before, after, alt, beforeLabel = 'Antes', afterLabel = 'Después' } = Astro.props;
+---
+
+<div class="before-after">
+  <figure class="before-after__side">
+    <span class="before-after__tag">{beforeLabel}</span>
+    <img src={before} alt={`${alt} — ${beforeLabel.toLowerCase()}`} loading="lazy" />
+  </figure>
+  <span class="before-after__vs" aria-hidden="true">→</span>
+  <figure class="before-after__side">
+    <span class="before-after__tag before-after__tag--after">{afterLabel}</span>
+    <img src={after} alt={`${alt} — ${afterLabel.toLowerCase()}`} loading="lazy" />
+  </figure>
+</div>
+
+<style>
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .before-after__side {
+    position: relative;
+    margin: 0;
+  }
+  .before-after__side img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+  }
+  .before-after__tag {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 1;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding: 0.3em 0.7em;
+    border-radius: 999px;
+  }
+  .before-after__tag--after {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .before-after__vs {
+    font-family: 'Anton', var(--font-head);
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 560px) {
+    .before-after {
+      grid-template-columns: 1fr;
+    }
+    .before-after__vs {
+      justify-self: center;
+      transform: rotate(90deg);
+    }
+  }
+</style>

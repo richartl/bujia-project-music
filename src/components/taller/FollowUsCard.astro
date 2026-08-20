@@ -1,0 +1,66 @@
+---
+// Caja "Síguenos" con las redes sociales del header (taller.social en
+// site.ts), como íconos circulares con etiqueta tipo cinta debajo.
+import { taller } from '../../config/site';
+import Icon from './Icon.astro';
+import SidebarBox from './SidebarBox.astro';
+---
+
+{
+  taller.social.length > 0 && (
+    <SidebarBox title="Síguenos">
+      <div class="follow-grid">
+        {taller.social.map((s) => (
+          <a href={s.href} target="_blank" rel="noreferrer noopener" class="follow-item">
+            <span class="follow-item__circle">
+              <Icon name={s.name} class="taller-icon" />
+            </span>
+            <span class="follow-item__label">{s.label}</span>
+          </a>
+        ))}
+      </div>
+    </SidebarBox>
+  )
+}
+
+<style>
+  .follow-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.4rem 1rem;
+  }
+  .follow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .follow-item__circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .follow-item__circle :global(.taller-icon) {
+    width: 24px;
+    height: 24px;
+  }
+  .follow-item__label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    letter-spacing: 0.02em;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.25em 0.7em;
+    margin-top: -0.6rem;
+  }
+</style>

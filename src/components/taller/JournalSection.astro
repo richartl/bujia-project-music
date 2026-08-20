@@ -1,0 +1,99 @@
+---
+// Sección "Desde el taller" debajo del catálogo: novedades/posts que
+// salen de src/content/journal/*.md — agregar/quitar/editar uno es
+// agregar/borrar/editar un .md ahí, sin tocar este componente. Cada
+// entrada se prende/apaga con su propio `enabled`; la sección entera se
+// apaga con taller.journal.enabled en site.ts. Va metida en un "pizarrón"
+// (fondo verde oscuro con textura de tiza) para que no se pierda contra
+// el fondo cream del resto del sitio.
+import { getCollection } from 'astro:content';
+import { taller } from '../../config/site';
+import StickerTitle from './StickerTitle.astro';
+import PunkButton from './PunkButton.astro';
+import JournalCard from './JournalCard.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
+
+const allPosts = taller.journal.enabled ? await getCollection('journal', ({ data }) => data.enabled) : [];
+const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = sorted.slice(0, taller.journal.limit);
+const hasMore = sorted.length > posts.length;
+---
+
+{
+  posts.length > 0 && (
+    <section class="journal-section">
+      <div class="container-wide">
+        <div class="journal-board">
+          <header class="journal-section__head">
+            <StickerTitle text={taller.journal.title} />
+            {taller.journal.subtitle && <p class="journal-section__subtitle">{taller.journal.subtitle}</p>}
+          </header>
+
+          <div class="journal-grid">
+            {posts.map((post) => (
+              <JournalCard post={post} href={withBase(`/archive/${post.slug}`)} image={withBase(post.data.cover)} />
+            ))}
+          </div>
+
+          {(hasMore || taller.journal.ctaLabel) && (
+            <div class="journal-section__cta-wrap">
+              <PunkButton href={withBase(taller.journal.ctaHref)} label={taller.journal.ctaLabel} />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .journal-section {
+    padding: 3rem 0;
+  }
+
+  /* El "pizarrón": fondo verde oscuro con textura de puntitos de tiza,
+     borde grueso y esquinas redondeadas, como el resto de los marcos
+     del sitio (TallerCover, SidebarBox). */
+  .journal-board {
+    background: #1f3d2b;
+    color: #fdf8e7;
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: 2.5rem 1.75rem;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.5px, transparent 1.5px);
+    background-size: 15px 15px;
+  }
+
+  .journal-section__head {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .journal-section__subtitle {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: rgba(253, 248, 231, 0.8);
+    margin: 0.6rem 0 0;
+  }
+
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .journal-section__cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .journal-board {
+      padding: 2rem 1.1rem;
+    }
+  }
+</style>

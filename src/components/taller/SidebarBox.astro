@@ -1,0 +1,41 @@
+---
+// Caja de sidebar reutilizable con título en barra negra (estilo
+// "POSTS DESTACADOS" del fanzine). El contenido va en el slot — se usa
+// tanto para listas de ítems relacionados como para el bloque "Síguenos".
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<div class="sidebar-box">
+  <p class="sidebar-box__title">{title}</p>
+  <div class="sidebar-box__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .sidebar-box {
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: 6px 6px 0 var(--ink);
+    overflow: hidden;
+  }
+  .sidebar-box__title {
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 0.7em 1em;
+  }
+  .sidebar-box__body {
+    padding: 1.1rem;
+  }
+</style>

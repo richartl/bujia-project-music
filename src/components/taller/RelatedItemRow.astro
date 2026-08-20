@@ -1,0 +1,47 @@
+---
+// Fila de un ítem relacionado dentro de un SidebarBox: miniatura circular
+// + título. Ponés varias seguidas y quedan separadas por una línea
+// punteada, como "POSTS DESTACADOS" del fanzine.
+interface Props {
+  href: string;
+  image: string;
+  title: string;
+}
+const { href, image, title } = Astro.props;
+---
+
+<a href={href} class="related-row">
+  <span class="related-row__thumb" style={`background-image:url(${image})`} />
+  <span class="related-row__title">{title}</span>
+</a>
+
+<style>
+  .related-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .related-row + .related-row {
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 2px dashed var(--ink);
+  }
+  .related-row__thumb {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(127, 127, 127, 0.15);
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--ink);
+  }
+  .related-row__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+</style>
