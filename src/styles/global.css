@@ -61,6 +61,16 @@ a {
   padding: 0 24px;
 }
 
+/* Versión ancha del container, para secciones tipo catálogo donde el
+   contenido (grillas de tarjetas, etc) se ve chico si lo limitamos al
+   ancho de lectura de 900px de los posts. */
+.container-wide {
+  container-type: inline-size;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 /* ── Cuerpo del post: justificado + guionado, como en Ghost ──────────── */
 .post-body {
   font-family: var(--font-body);

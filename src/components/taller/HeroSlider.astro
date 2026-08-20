@@ -7,6 +7,7 @@
 // Con 0 o 1 slides habilitadas no se muestran flechas ni puntitos.
 import { getCollection } from 'astro:content';
 import { taller } from '../../config/site';
+import PunkButton from './PunkButton.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
@@ -31,9 +32,7 @@ const showNav = slides.length > 1;
                 <slide.Content />
               </div>
               {slide.data.ctaLabel && slide.data.ctaHref && (
-                <a href={withBase(slide.data.ctaHref)} class="hero-slider__cta">
-                  {slide.data.ctaLabel}
-                </a>
+                <PunkButton href={withBase(slide.data.ctaHref)} label={slide.data.ctaLabel} />
               )}
             </div>
           </div>
@@ -108,21 +107,6 @@ const showNav = slides.length > 1;
   .hero-slider__body:empty {
     display: none;
   }
-  .hero-slider__cta {
-    display: inline-block;
-    text-decoration: none;
-    background: var(--accent);
-    color: var(--ink);
-    border: var(--border-w) solid var(--ink);
-    border-radius: 999px;
-    padding: 0.7em 1.6em;
-    font-family: var(--font-head);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.02em;
-  }
-
   .hero-slider__arrow {
     position: absolute;
     top: 50%;

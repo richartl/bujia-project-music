@@ -1,0 +1,26 @@
+---
+// Etiqueta chica tipo "[PRODUCTOS]" para encabezar un grupo dentro de una
+// sección (ej. separar Productos/Servicios en el catálogo). Reutilizable
+// en cualquier lista que necesite dividirse por tags.
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+
+<p class:list={['taller-section-label', className]}>[{text.toUpperCase()}]</p>
+
+<style>
+  .taller-section-label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.35rem;
+    margin: 0 0 1rem;
+  }
+</style>

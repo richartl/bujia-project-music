@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import TallerLayout from '../../layouts/TallerLayout.astro';
 import TallerCover from '../../components/taller/TallerCover.astro';
 import CatalogCard from '../../components/taller/CatalogCard.astro';
+import SectionLabel from '../../components/taller/SectionLabel.astro';
 import { groupCatalogItems } from '../../lib/catalog';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -14,7 +15,7 @@ const groups = groupCatalogItems(items);
 ---
 
 <TallerLayout title="Catálogo">
-  <div class="container">
+  <div class="container-wide">
     <TallerCover
       tag="Catálogo"
       title="Nuestro catálogo"
@@ -23,7 +24,7 @@ const groups = groupCatalogItems(items);
     >
       {groups.map((group) => (
         <div class="catalog-group">
-          <p class="catalog-group__label">[{group.label.toUpperCase()}]</p>
+          <SectionLabel text={group.label} />
           <div class="catalog-grid">
             {group.items.map((item) => (
               <CatalogCard item={item} href={withBase(`/catalogo/${item.slug}`)} />
@@ -36,23 +37,12 @@ const groups = groupCatalogItems(items);
 
   <style>
     .catalog-group + .catalog-group {
-      margin-top: 2.5rem;
-    }
-    .catalog-group__label {
-      font-family: var(--font-head);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.85rem;
-      color: var(--accent);
-      border-bottom: 2px solid var(--ink);
-      padding-bottom: 0.4rem;
-      margin: 0 0 1.2rem;
+      margin-top: 1.8rem;
     }
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.1rem;
     }
   </style>
 </TallerLayout>

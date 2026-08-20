@@ -1,0 +1,24 @@
+---
+// Título tipo "sticker" punk: reusa el .fz-section-title del sitio
+// (fondo de color + recorte irregular + inclinación) con la display
+// font Anton, grande. Para encabezar cualquier sección del taller
+// ("Nuestros productos", "Nuestros servicios", etc).
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+
+<span class:list={['fz-section-title', 'taller-sticker-title', className]}>{text}</span>
+
+<style>
+  .taller-sticker-title {
+    font-family: 'Anton', var(--font-head);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 7vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    padding: 0.35em 0.9em 0.3em;
+  }
+</style>

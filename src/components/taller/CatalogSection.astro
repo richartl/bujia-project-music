@@ -10,6 +10,9 @@ import { getCollection } from 'astro:content';
 import { taller } from '../../config/site';
 import { groupCatalogItems } from '../../lib/catalog';
 import CatalogCard from './CatalogCard.astro';
+import SectionLabel from './SectionLabel.astro';
+import StickerTitle from './StickerTitle.astro';
+import PunkButton from './PunkButton.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}${href}`);
@@ -24,15 +27,15 @@ const groups = groupCatalogItems(items);
 {
   items.length > 0 && (
     <section class={`catalog-section scheme-${taller.catalog.colorScheme}`}>
-      <div class="container catalog-section__in">
+      <div class="container-wide catalog-section__in">
         <header class="catalog-section__head">
-          <span class="fz-section-title">{taller.catalog.title}</span>
+          <StickerTitle text={taller.catalog.title} />
           {taller.catalog.subtitle && <p class="catalog-section__subtitle">{taller.catalog.subtitle}</p>}
         </header>
 
         {groups.map((group) => (
           <div class="catalog-group">
-            <p class="catalog-group__label">[{group.label.toUpperCase()}]</p>
+            <SectionLabel text={group.label} />
             <div class="catalog-grid">
               {group.items.map((item) => (
                 <CatalogCard item={item} href={withBase(`/catalogo/${item.slug}`)} />
@@ -43,9 +46,7 @@ const groups = groupCatalogItems(items);
 
         {(hasMore || taller.catalog.ctaLabel) && (
           <div class="catalog-section__cta-wrap">
-            <a href={withBase(taller.catalog.ctaHref)} class="catalog-section__cta">
-              {taller.catalog.ctaLabel}
-            </a>
+            <PunkButton href={withBase(taller.catalog.ctaHref)} label={taller.catalog.ctaLabel} />
           </div>
         )}
       </div>
@@ -57,22 +58,11 @@ const groups = groupCatalogItems(items);
   .catalog-section {
     background: var(--paper);
     color: var(--ink);
-    padding: 3.5rem 0;
+    padding: 3rem 0;
   }
   .catalog-section__head {
     text-align: center;
-    margin-bottom: 2.5rem;
-  }
-  /* Título del catálogo: reusa el "sticker" .fz-section-title del sitio
-     pero con la display font Anton (tipo flyer/cartel punk) y mucho más
-     grande, para que se note bien la sección. */
-  .catalog-section__head :global(.fz-section-title) {
-    font-family: 'Anton', var(--font-head);
-    font-weight: 400;
-    font-size: clamp(1.9rem, 7vw, 3.4rem);
-    line-height: 1;
-    letter-spacing: 0.01em;
-    padding: 0.35em 0.9em 0.3em;
+    margin-bottom: 2rem;
   }
   .catalog-section__subtitle {
     font-family: var(--font-head);
@@ -84,42 +74,17 @@ const groups = groupCatalogItems(items);
   }
 
   .catalog-group + .catalog-group {
-    margin-top: 2.5rem;
-  }
-  .catalog-group__label {
-    font-family: var(--font-head);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.85rem;
-    color: var(--accent);
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 0.4rem;
-    margin: 0 0 1.2rem;
+    margin-top: 1.8rem;
   }
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.1rem;
   }
 
   .catalog-section__cta-wrap {
     display: flex;
     justify-content: center;
-    margin-top: 2.5rem;
-  }
-  .catalog-section__cta {
-    display: inline-block;
-    text-decoration: none;
-    background: var(--accent);
-    color: var(--ink);
-    border: var(--border-w) solid var(--ink);
-    border-radius: 999px;
-    padding: 0.7em 2em;
-    font-family: var(--font-head);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.02em;
+    margin-top: 2rem;
   }
 </style>
