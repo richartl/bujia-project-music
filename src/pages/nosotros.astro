@@ -1,10 +1,11 @@
 ---
-import TallerLayout from '../layouts/TallerLayout.astro';
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const page = await getEntry('pages', 'nosotros');
+const { Content } = await page.render();
 ---
 
-<TallerLayout title="Nosotros">
-  <div class="container">
-    <h1>Nosotros</h1>
-    <p>Página en construcción.</p>
-  </div>
-</TallerLayout>
+<PageLayout title={page.data.title} description={page.data.description}>
+  <Content />
+</PageLayout>

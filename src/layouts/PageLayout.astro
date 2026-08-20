@@ -1,0 +1,47 @@
+---
+// Layout para páginas sueltas (Nosotros, Privacidad, etc) escritas en
+// .mdx. A diferencia de PostLayout, acá no hay fecha/volumen/tags ni
+// botón de "Descargar PDF" — es una página, no una entrada del fanzine.
+// El contenido controla su propio orden visual con <PageSpread /> y texto
+// normal de Markdown (que cae en el ancho de lectura de .page-body).
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="page">
+    <div class="page-body post-body">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    background: var(--paper);
+    padding-bottom: 2.5rem;
+  }
+  /* El texto (párrafos, h2/h3, <h1> del título) queda en columna angosta
+     de lectura, igual que un post. <PageSpread /> se sale de acá con su
+     propio breakout a 100vw sin importar este padding. */
+  .page-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 24px 0;
+  }
+  /* Por si una página no abre con <PageSpread> y escribe # Título a mano. */
+  .page-body :global(h1) {
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin: 0 0 1rem;
+    text-align: left;
+  }
+</style>

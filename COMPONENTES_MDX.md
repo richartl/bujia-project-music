@@ -235,6 +235,56 @@ Si tu pastilla suena apagada, probá primero limpiando los contactos.
 
 ---
 
+## 8. Portadas de página suelta (`PageSpread`)
+
+Distinto de `PostCover`: no es un título metido en el ancho de lectura,
+sino un bloque que se sale a todo el ancho de la pantalla (full-bleed)
+con una foto de fondo, para páginas sueltas tipo "Nosotros" — pensado
+para que se sienta largo como abrir una revista, y para poder repetirlo
+varias veces y cortar la página en "secciones" tipo fanzine.
+
+```mdx
+import PageSpread from '../../components/content/PageSpread.astro';
+
+{/* cover: portada larga (min-height ~92vh), título gigante abajo */}
+<PageSpread
+  variant="cover"
+  src="/img/taller-fachada.jpg"
+  alt="Fachada del taller"
+  tag="Bujía Project Music"
+  title="Nosotros"
+  subtitle="Texcoco, Edo. Méx."
+/>
+
+{/* band: franja más corta, para separar secciones a la mitad de la página */}
+<PageSpread
+  variant="band"
+  src="/img/banco-de-trabajo.jpg"
+  alt="Banco de trabajo del taller"
+  title="Hecho a mano, sin atajos"
+  colorScheme="acido"
+/>
+
+{/* insert: encarte fotográfico con bordes rasgados, texto en una esquina */}
+<PageSpread
+  variant="insert"
+  src="/img/detalle-pastilla.jpg"
+  alt="Detalle de una pastilla rebobinada"
+  tag="Desde el taller"
+  title="Lo que hacemos"
+/>
+```
+
+Props: `src` y `alt` (obligatorios), `title?`, `tag?`, `subtitle?`,
+`variant?` (`cover` | `band` | `insert`, default `cover`), `colorScheme?`
+(`rosa` | `acido` | `azul` | `negro`), `overlay?` (boolean, default
+`true` — apagalo si la foto ya es oscura y no necesita el degradé).
+
+Se puede meter el número de veces que quieras en un mismo `.mdx`, entre
+párrafos normales de texto, para armar una página larga tipo revista.
+
+---
+
 ## Dónde se pueden usar
 
 Cualquier colección de contenido (necesita ser `.mdx`, no `.md`):
@@ -244,3 +294,10 @@ Cualquier colección de contenido (necesita ser `.mdx`, no `.md`):
 - `src/content/catalog/` — descripción larga de productos/servicios (se
   ve en `/catalogo/[slug]`)
 - `src/content/about/` — bloques "¿Qué es...?" del home
+- `src/content/pages/` — páginas sueltas del sitio (Nosotros, Privacidad,
+  etc). Cada archivo `.mdx` de acá se sirve desde su `.astro`
+  correspondiente en `src/pages/` vía `PageLayout` (ver
+  `src/pages/nosotros.astro` como ejemplo). Para agregar otra página
+  suelta en MDX: creá el `.mdx` acá, y en su `.astro` reemplazá el
+  contenido fijo por `getEntry('pages', 'slug-del-archivo')` +
+  `<PageLayout>` como en `nosotros.astro`.

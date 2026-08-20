@@ -129,4 +129,17 @@ const guitars = defineCollection({
   }),
 });
 
-export const collections = { posts, hero, catalog, journal, about, guitars };
+// Colección "pages": páginas sueltas del sitio (Nosotros, Privacidad,
+// Política de cambios, etc) escritas en .mdx para poder usar los mismos
+// componentes reutilizables que los posts (PageSpread, etc), en vez de
+// texto plano metido a mano en cada .astro. Cada archivo de acá se sirve
+// desde el .astro correspondiente en src/pages/ (ver src/pages/nosotros.astro).
+const pages = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+});
+
+export const collections = { posts, hero, catalog, journal, about, guitars, pages };
