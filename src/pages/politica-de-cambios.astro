@@ -1,10 +1,18 @@
 ---
-import TallerLayout from '../layouts/TallerLayout.astro';
+import { getEntry } from 'astro:content';
+import StaticPageLayout from '../layouts/StaticPageLayout.astro';
+
+const page = await getEntry('pages', 'politica-de-cambios');
+const { Content } = await page.render();
 ---
 
-<TallerLayout title="Política de cambios y garantías">
-  <div class="container">
-    <h1>Política de cambios y garantías</h1>
-    <p>Página en construcción.</p>
-  </div>
-</TallerLayout>
+<StaticPageLayout
+  title={page.data.title}
+  description={page.data.description}
+  tag={page.data.tag}
+  subtitle={page.data.subtitle}
+  credit={page.data.credit}
+  colorScheme={page.data.colorScheme}
+>
+  <Content />
+</StaticPageLayout>

@@ -235,51 +235,48 @@ Si tu pastilla suena apagada, probá primero limpiando los contactos.
 
 ---
 
-## 8. Portadas dentro de una página suelta (`PageCover`)
+## 8. Páginas sueltas del sitio (Nosotros, Servicios, Privacidad, etc)
 
-Para páginas sueltas tipo "Nosotros" — la página en sí se ve como
-cualquier otra del sitio (título arriba, contenido en columna de
-lectura, dentro de `.container`), **no** toma el formato de fanzine.
-`PageCover` es un bloque más dentro de ese contenido: una tarjeta con
-foto de fondo y título encima, con el mismo borde/radio que el resto de
-tarjetas del sitio (no se sale del ancho de la página). Se puede meter
-una o varias veces entre los párrafos para separar secciones.
+Estas páginas viven en `src/content/pages/*.mdx` y se ven **igual que
+cualquier otra sección del taller** (mismo header y footer del sitio,
+mismo "cover" tipo portada de fanzine que ya usan `/catalogo` y
+`/guitarras` — banner de color + tag + título tipo sticker + subtítulo).
+No usan un layout de fanzine especial: el objetivo es que el sitio se
+sienta consistente, y el `.mdx` sólo te da Markdown + la posibilidad de
+importar cualquier componente de esta guía si hace falta.
+
+El "cover" (encabezado) se controla **desde el frontmatter**, sin tocar
+código — así se puede cambiar el estilo de una página con sólo editar el
+`.mdx`:
 
 ```mdx
-import PageCover from '../../components/content/PageCover.astro';
+---
+title: 'Nosotros'
+description: 'Quiénes somos, qué hacemos y por qué en Bujía Project Music.'
+tag: 'Nosotros'
+subtitle: 'Guitarras, bajos y fierros con actitud punk desde Texcoco'
+colorScheme: 'rosa'
+---
 
-{/* cover: banner grande, para abrir la página o una sección larga */}
-<PageCover
-  variant="cover"
-  src="/img/taller-fachada.jpg"
-  alt="Fachada del taller"
-  tag="Bujía Project Music"
-  title="Quiénes somos"
-/>
+Bujía Project Music nació de la necesidad de tener un taller donde a los
+instrumentos se les trata con respeto...
 
-{/* band: franja más chica y centrada, para cortar el texto a la mitad */}
-<PageCover
-  variant="band"
-  src="/img/banco-de-trabajo.jpg"
-  alt="Banco de trabajo del taller"
-  title="Hecho a mano, sin atajos"
-  colorScheme="acido"
-/>
+## Hecho a mano, sin atajos
 
-{/* insert: recuadro tipo foto pegada, un poco rotado, con caption chico */}
-<PageCover
-  variant="insert"
-  src="/img/detalle-pastilla.jpg"
-  alt="Detalle de una pastilla rebobinada"
-  tag="Desde el taller"
-  title="Lo que hacemos"
-/>
+Podés usar `##`/`###` normal, o importar cualquiera de los componentes
+de esta guía (`Quote`, `ImageSide`, `PhotoOld`, etc) si el contenido lo
+pide.
 ```
 
-Props: `src` y `alt` (obligatorios), `title?`, `tag?`, `subtitle?`,
-`variant?` (`cover` | `band` | `insert`, default `cover`), `colorScheme?`
-(`rosa` | `acido` | `azul` | `negro`), `overlay?` (boolean, default
-`true` — apagalo si la foto ya es oscura y no necesita el degradé).
+Frontmatter disponible: `title` (obligatorio, además es el título del
+`<TallerCover>`), `description?` (SEO), `tag?`, `subtitle?`, `credit?` y
+`colorScheme?` (`rosa` | `acido` | `azul` | `negro`, default `rosa`) —
+los mismos props que recibe `TallerCover`.
+
+Para agregar otra página suelta: creá el `.mdx` en
+`src/content/pages/`, y en `src/pages/<slug>.astro` copiá el patrón de
+`src/pages/nosotros.astro` (`getEntry('pages', '<slug>')` +
+`<StaticPageLayout>`).
 
 ---
 
@@ -292,10 +289,4 @@ Cualquier colección de contenido (necesita ser `.mdx`, no `.md`):
 - `src/content/catalog/` — descripción larga de productos/servicios (se
   ve en `/catalogo/[slug]`)
 - `src/content/about/` — bloques "¿Qué es...?" del home
-- `src/content/pages/` — páginas sueltas del sitio (Nosotros, Privacidad,
-  etc). Cada archivo `.mdx` de acá se sirve desde su `.astro`
-  correspondiente en `src/pages/` vía `PageLayout` (ver
-  `src/pages/nosotros.astro` como ejemplo). Para agregar otra página
-  suelta en MDX: creá el `.mdx` acá, y en su `.astro` reemplazá el
-  contenido fijo por `getEntry('pages', 'slug-del-archivo')` +
-  `<PageLayout>` como en `nosotros.astro`.
+- `src/content/pages/` — páginas sueltas del sitio (ver punto 8 arriba)

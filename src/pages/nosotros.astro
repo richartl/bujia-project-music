@@ -1,11 +1,18 @@
 ---
 import { getEntry } from 'astro:content';
-import PageLayout from '../layouts/PageLayout.astro';
+import StaticPageLayout from '../layouts/StaticPageLayout.astro';
 
 const page = await getEntry('pages', 'nosotros');
 const { Content } = await page.render();
 ---
 
-<PageLayout title={page.data.title} description={page.data.description}>
+<StaticPageLayout
+  title={page.data.title}
+  description={page.data.description}
+  tag={page.data.tag}
+  subtitle={page.data.subtitle}
+  credit={page.data.credit}
+  colorScheme={page.data.colorScheme}
+>
   <Content />
-</PageLayout>
+</StaticPageLayout>
