@@ -23,7 +23,7 @@ const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}$
 ---
 
 <TallerLayout title={name} description={excerpt}>
-  <div class="container">
+  <div class="container-wide">
     <TallerCover tag={categoryLabel} title={name} subtitle={priceLabel} colorScheme="rosa">
       <article class="catalog-detail">
         <a href={withBase('/catalogo')} class="catalog-detail__back">← Volver al catálogo</a>
