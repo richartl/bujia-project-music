@@ -33,7 +33,7 @@ export const taller = {
   // sacá una clave para quitar esa sección de la home (sigue existiendo,
   // simplemente no se renderiza ahí). Claves válidas: 'hero' | 'about' |
   // 'catalog' | 'journal'.
-  homeSections: ['hero', 'about', 'catalog', 'journal'] as const,
+  homeSections: ['hero', 'about', 'guitars', 'catalog', 'journal'] as const,
 
   logo: {
     // Si `image` tiene un path (relativo a /public, ej. "/img/logo.svg"),
@@ -100,6 +100,21 @@ export const taller = {
     enabled: true,
     // Esquema de color (rosa | acido | azul | negro).
     colorScheme: 'negro' as const,
+  },
+
+  // Sección "Guitarras que construimos" — modelos + precios, con su
+  // propio esquema de color y ubicación en homeSections (independiente
+  // de about y de catalog). Los modelos salen de src/content/guitars/*.md.
+  // `limit` es cuántos se muestran antes del botón "Ver todas".
+  guitars: {
+    enabled: true,
+    title: 'Guitarras que construimos',
+    subtitle: 'Cada una hecha a mano, a pedido, en el taller',
+    limit: 6,
+    ctaLabel: 'Ver todas',
+    ctaHref: '/guitarras',
+    // Esquema de color de la sección (rosa | acido | azul | negro).
+    colorScheme: 'acido' as const,
   },
 
   // Sección de catálogo (productos + servicios) debajo del hero. Los

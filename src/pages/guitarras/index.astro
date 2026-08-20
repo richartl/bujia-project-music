@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import TallerLayout from '../../layouts/TallerLayout.astro';
+import TallerCover from '../../components/taller/TallerCover.astro';
+import GuitarCard from '../../components/taller/GuitarCard.astro';
+
+const allItems = await getCollection('guitars', ({ data }) => data.enabled);
+const items = allItems.sort((a, b) => a.data.order - b.data.order);
+---
+
+<TallerLayout title="Guitarras">
+  <div class="container-wide">
+    <TallerCover
+      tag="Luthería"
+      title="Guitarras que construimos"
+      subtitle="Cada una hecha a mano, a pedido, en el taller"
+      colorScheme="acido"
+    >
+      <div class="guitars-grid">
+        {items.map((item) => <GuitarCard item={item} />)}
+      </div>
+    </TallerCover>
+  </div>
+
+  <style>
+    .guitars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.1rem;
+    }
+  </style>
+</TallerLayout>

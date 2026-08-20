@@ -108,4 +108,25 @@ const about = defineCollection({
   }),
 });
 
-export const collections = { posts, hero, catalog, journal, about };
+// Colección "guitars": guitarras (y bajos) que construye el taller —
+// modelo + precio + specs, independiente del catálogo de pedales/servicios.
+// Cada una es un archivo .md; el cuerpo se usa como descripción/specs
+// largas debajo de la tarjeta.
+const guitars = defineCollection({
+  type: 'content',
+  schema: z.object({
+    model: z.string(),
+    price: z.number().nonnegative().optional(),
+    currency: z.string().default('MXN'),
+    image: z.string(),
+    // Categoría corta libre, ej. "Eléctrica" / "Bajo" / "Acústica".
+    type: z.string().default('Eléctrica'),
+    // Specs cortas para la tarjeta, ej. "Caoba · Humbucker · 25.5\"".
+    specs: z.string().optional(),
+    soldOut: z.boolean().default(false),
+    enabled: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { posts, hero, catalog, journal, about, guitars };
