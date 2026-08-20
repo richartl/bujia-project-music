@@ -24,7 +24,7 @@ const { title, description, tag, subtitle, credit, colorScheme } = Astro.props;
 ---
 
 <TallerLayout title={title} description={description}>
-  <div class="container">
+  <div class="page-container">
     <TallerCover tag={tag} title={title} subtitle={subtitle} credit={credit} colorScheme={colorScheme}>
       <div class="post-body">
         <slot />
@@ -32,3 +32,16 @@ const { title, description, tag, subtitle, credit, colorScheme } = Astro.props;
     </TallerCover>
   </div>
 </TallerLayout>
+
+<style>
+  /* Más ancho que .container (900px) para que el cover ocupe más
+     pantalla, pero sin llegar a .container-wide (1440px, pensado para
+     grillas de tarjetas) que dejaría las líneas de texto demasiado
+     largas para leer. */
+  .page-container {
+    container-type: inline-size;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+</style>
