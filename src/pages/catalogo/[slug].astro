@@ -33,36 +33,19 @@ const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}$
 ---
 
 <TallerLayout title={name} description={excerpt}>
-  <div class="container-wide">
+  <div class="container-wide catalog-detail-grid">
     <TallerCover tag={categoryLabel} title={name} subtitle={priceLabel} colorScheme="rosa">
       <article class="catalog-detail">
         <a href={withBase('/catalogo')} class="catalog-detail__back">← Volver al catálogo</a>
 
-        <div class="catalog-detail__wrap">
-          <div class="catalog-detail__layout">
-            <div class="catalog-detail__img" style={`background-image:url(${withBase(image)})`}>
-              {soldOut && <span class="catalog-detail__badge">Agotado</span>}
-            </div>
-
-            <div class="post-body catalog-detail__body">
-              <Content />
-            </div>
+        <div class="catalog-detail__layout">
+          <div class="catalog-detail__img" style={`background-image:url(${withBase(image)})`}>
+            {soldOut && <span class="catalog-detail__badge">Agotado</span>}
           </div>
 
-          <aside class="catalog-detail__sidebar">
-            {otherItems.length > 0 && (
-              <SidebarBox title="Más del catálogo">
-                {otherItems.map((other) => (
-                  <RelatedItemRow
-                    href={withBase(`/catalogo/${other.slug}`)}
-                    image={withBase(other.data.image)}
-                    title={other.data.name}
-                  />
-                ))}
-              </SidebarBox>
-            )}
-            <FollowUsCard />
-          </aside>
+          <div class="post-body catalog-detail__body">
+            <Content />
+          </div>
         </div>
 
         <PrevNextNav
@@ -73,9 +56,30 @@ const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}$
         />
       </article>
     </TallerCover>
+
+    <aside class="catalog-detail__sidebar">
+      {otherItems.length > 0 && (
+        <SidebarBox title="Más del catálogo">
+          {otherItems.map((other) => (
+            <RelatedItemRow
+              href={withBase(`/catalogo/${other.slug}`)}
+              image={withBase(other.data.image)}
+              title={other.data.name}
+            />
+          ))}
+        </SidebarBox>
+      )}
+      <FollowUsCard />
+    </aside>
   </div>
 
   <style>
+    .catalog-detail-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
     .catalog-detail__back {
       display: inline-block;
       text-decoration: none;
@@ -84,12 +88,6 @@ const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}$
       font-size: 0.85rem;
       text-transform: uppercase;
       margin-bottom: 1.2rem;
-    }
-    .catalog-detail__wrap {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 2rem;
-      align-items: start;
     }
     .catalog-detail__layout {
       display: grid;
@@ -123,11 +121,15 @@ const withBase = (href: string) => (/^https?:\/\//.test(href) ? href : `${base}$
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     @media (max-width: 960px) {
-      .catalog-detail__wrap {
+      .catalog-detail-grid {
         grid-template-columns: 1fr;
+      }
+      .catalog-detail__sidebar {
+        margin-top: 0;
       }
     }
     @media (max-width: 720px) {
