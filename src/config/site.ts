@@ -183,8 +183,7 @@ export const taller = {
     // Links legales/institucionales (política de privacidad, cambios y
     // garantías, términos, etc). Agregá o quitá los que necesites.
     legalLinks: [
-      { label: 'Política de privacidad', href: '/privacidad' },
-      { label: 'Política de cambios y garantías', href: '/politica-de-cambios' },
+      { label: 'Políticas y garantías', href: '/politica-y-garantias' },
     ],
   },
 };

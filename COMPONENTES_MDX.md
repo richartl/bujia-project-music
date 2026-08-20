@@ -235,6 +235,51 @@ Si tu pastilla suena apagada, probá primero limpiando los contactos.
 
 ---
 
+## 8. Páginas sueltas del sitio (Nosotros, Servicios, Privacidad, etc)
+
+Estas páginas viven en `src/content/pages/*.mdx` y se ven **igual que
+cualquier otra sección del taller** (mismo header y footer del sitio,
+mismo "cover" tipo portada de fanzine que ya usan `/catalogo` y
+`/guitarras` — banner de color + tag + título tipo sticker + subtítulo).
+No usan un layout de fanzine especial: el objetivo es que el sitio se
+sienta consistente, y el `.mdx` sólo te da Markdown + la posibilidad de
+importar cualquier componente de esta guía si hace falta.
+
+El "cover" (encabezado) se controla **desde el frontmatter**, sin tocar
+código — así se puede cambiar el estilo de una página con sólo editar el
+`.mdx`:
+
+```mdx
+---
+title: 'Nosotros'
+description: 'Quiénes somos, qué hacemos y por qué en Bujía Project Music.'
+tag: 'Nosotros'
+subtitle: 'Guitarras, bajos y fierros con actitud punk desde Texcoco'
+colorScheme: 'rosa'
+---
+
+Bujía Project Music nació de la necesidad de tener un taller donde a los
+instrumentos se les trata con respeto...
+
+## Hecho a mano, sin atajos
+
+Podés usar `##`/`###` normal, o importar cualquiera de los componentes
+de esta guía (`Quote`, `ImageSide`, `PhotoOld`, etc) si el contenido lo
+pide.
+```
+
+Frontmatter disponible: `title` (obligatorio, además es el título del
+`<TallerCover>`), `description?` (SEO), `tag?`, `subtitle?`, `credit?` y
+`colorScheme?` (`rosa` | `acido` | `azul` | `negro`, default `rosa`) —
+los mismos props que recibe `TallerCover`.
+
+Para agregar otra página suelta: creá el `.mdx` en
+`src/content/pages/`, y en `src/pages/<slug>.astro` copiá el patrón de
+`src/pages/nosotros.astro` (`getEntry('pages', '<slug>')` +
+`<StaticPageLayout>`).
+
+---
+
 ## Dónde se pueden usar
 
 Cualquier colección de contenido (necesita ser `.mdx`, no `.md`):
@@ -244,3 +289,4 @@ Cualquier colección de contenido (necesita ser `.mdx`, no `.md`):
 - `src/content/catalog/` — descripción larga de productos/servicios (se
   ve en `/catalogo/[slug]`)
 - `src/content/about/` — bloques "¿Qué es...?" del home
+- `src/content/pages/` — páginas sueltas del sitio (ver punto 8 arriba)

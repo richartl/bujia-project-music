@@ -1,0 +1,47 @@
+---
+// Layout para páginas sueltas (Nosotros, Servicios, Privacidad, etc)
+// escritas en .mdx. Usa el mismo header/footer del resto del sitio
+// (TallerLayout) y el mismo "cover" tipo portada de fanzine que ya usan
+// /catalogo y /guitarras (TallerCover) — así todas las páginas estáticas
+// se ven consistentes entre sí y con el resto del taller.
+//
+// El estilo del encabezado (tag, subtítulo, crédito, color) se controla
+// 100% desde el frontmatter del .mdx — ver src/content/pages/*.mdx — sin
+// tocar este archivo ni el .astro de la ruta.
+import TallerLayout from './TallerLayout.astro';
+import TallerCover from '../components/taller/TallerCover.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  tag?: string;
+  subtitle?: string;
+  credit?: string;
+  colorScheme?: 'rosa' | 'acido' | 'azul' | 'negro';
+}
+
+const { title, description, tag, subtitle, credit, colorScheme } = Astro.props;
+---
+
+<TallerLayout title={title} description={description}>
+  <div class="page-container">
+    <TallerCover tag={tag} title={title} subtitle={subtitle} credit={credit} colorScheme={colorScheme}>
+      <div class="post-body">
+        <slot />
+      </div>
+    </TallerCover>
+  </div>
+</TallerLayout>
+
+<style>
+  /* Más ancho que .container (900px) para que el cover ocupe más
+     pantalla, pero sin llegar a .container-wide (1440px, pensado para
+     grillas de tarjetas) que dejaría las líneas de texto demasiado
+     largas para leer. */
+  .page-container {
+    container-type: inline-size;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+</style>

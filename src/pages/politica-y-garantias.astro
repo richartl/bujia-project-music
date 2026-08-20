@@ -1,0 +1,18 @@
+---
+import { getEntry } from 'astro:content';
+import StaticPageLayout from '../layouts/StaticPageLayout.astro';
+
+const page = await getEntry('pages', 'politica-y-garantias');
+const { Content } = await page.render();
+---
+
+<StaticPageLayout
+  title={page.data.title}
+  description={page.data.description}
+  tag={page.data.tag}
+  subtitle={page.data.subtitle}
+  credit={page.data.credit}
+  colorScheme={page.data.colorScheme}
+>
+  <Content />
+</StaticPageLayout>

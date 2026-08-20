@@ -129,4 +129,25 @@ const guitars = defineCollection({
   }),
 });
 
-export const collections = { posts, hero, catalog, journal, about, guitars };
+// Colección "pages": páginas sueltas del sitio (Nosotros, Privacidad,
+// Política de cambios, etc) escritas en .mdx para poder usar los mismos
+// componentes reutilizables que los posts, en vez de texto plano metido
+// a mano en cada .astro. Cada archivo de acá se sirve desde el .astro
+// correspondiente en src/pages/ vía StaticPageLayout, que envuelve el
+// contenido en <TallerCover> — el mismo "encabezado" tipo portada de
+// fanzine que ya usan /catalogo y /guitarras. tag/subtitle/credit/
+// colorScheme son las props de ese encabezado: cambiando el frontmatter
+// cambiás el estilo del header sin tocar código.
+const pages = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    tag: z.string().optional(),
+    subtitle: z.string().optional(),
+    credit: z.string().optional(),
+    colorScheme: z.enum(['rosa', 'acido', 'azul', 'negro']).default('rosa'),
+  }),
+});
+
+export const collections = { posts, hero, catalog, journal, about, guitars, pages };
