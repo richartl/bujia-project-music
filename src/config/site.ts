@@ -43,6 +43,9 @@ export const taller = {
     // Fondo de las páginas del taller, visible en los huecos entre
     // secciones (arriba del hero, entre catálogo y journal, etc).
     pageBackground: '#f3e8c8',
+    // Franja de arriba del todo del header (logo + redes + menú), la
+    // primera que se ve al entrar al sitio.
+    headerTopBackground: '#fff5cf',
     // Píldora del menú, header fijo al hacer scroll y submenú desplegable.
     headerBackground: '#ffffff',
     // Barra de anuncios arriba del header.
