@@ -46,7 +46,7 @@ export const taller = {
     // Píldora del menú, header fijo al hacer scroll y submenú desplegable.
     headerBackground: '#ffffff',
     // Barra de anuncios arriba del header.
-    announcementBackground: '#000000',
+    announcementBackground: '#ff2f92',
     // Footer.
     footerBackground: '#000000',
   },
