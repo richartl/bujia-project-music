@@ -15,8 +15,8 @@ export const site = {
 };
 
 export const social = {
-  instagram: '',
-  whatsapp: '',
+  instagram: 'https://instagram.com/bujiaprojectmusic',
+  whatsapp: 'https://wa.me/message/PRMKHTDNWYD3I1',
   discord: '',
   email: '',
 };
@@ -42,14 +42,14 @@ export const taller = {
   theme: {
     // Fondo de las páginas del taller, visible en los huecos entre
     // secciones (arriba del hero, entre catálogo y journal, etc).
-    pageBackground: '#f3e8c8',
+    pageBackground: '#F1F0EB',
     // Franja de arriba del todo del header (logo + redes + menú), la
     // primera que se ve al entrar al sitio.
-    headerTopBackground: '#fff5cf',
+    headerTopBackground: '#F1F0EB',
     // Píldora del menú, header fijo al hacer scroll y submenú desplegable.
     headerBackground: '#ffffff',
     // Barra de anuncios arriba del header.
-    announcementBackground: '#ff2f92',
+    announcementBackground: '#000000',
     // Footer.
     footerBackground: '#000000',
   },
@@ -81,7 +81,7 @@ export const taller = {
     { label: 'Home', href: '/' },
     { label: 'Nosotros', href: '/nosotros' },
     { label: 'Servicios', href: '/catalogo' },
-    { label: 'Blog', href: '/archive' },
+    //{ label: 'Blog', href: '/archive' },
   ],
 
   // Buscador (ícono de lupa) en el header completo.
@@ -119,7 +119,7 @@ export const taller = {
   about: {
     enabled: true,
     // Esquema de color (rosa | acido | azul | negro).
-    colorScheme: 'kraft' as const,
+    colorScheme: 'carbon' as const,
   },
 
   // Sección "Guitarras que construimos" — modelos + precios, con su
@@ -143,14 +143,14 @@ export const taller = {
   // /catalogo, con el listado completo).
   catalog: {
     enabled: true,
-    title: 'Nuestros productos',
+    title: 'Nuestros servicios',
     subtitle: 'Conoce los servicios que ofrecemos para tu instrumento',
     limit: 6,
     ctaLabel: 'Ver todo',
     ctaHref: '/catalogo',
     // Esquema de color de la sección (rosa | acido | azul | negro, ver
     // colorSchemes acá abajo).
-    colorScheme: 'rosa' as const,
+    colorScheme: 'taller' as const,
   },
 
   // Sección "Desde el taller" debajo del catálogo, con novedades/posts.
@@ -158,7 +158,7 @@ export const taller = {
   // la home antes del botón "Ver todos" (que linkea a /archive, con el
   // listado completo).
   journal: {
-    enabled: true,
+    enabled: false,
     title: 'Desde el taller',
     subtitle: 'Sesiones, reparaciones y cosas que armamos por acá',
     limit: 4,
