@@ -35,6 +35,22 @@ export const taller = {
   // 'catalog' | 'journal'.
   homeSections: ['hero', 'about', 'guitars', 'catalog', 'journal'] as const,
 
+  // Colores de "chrome" del sitio: el fondo general detrás de todas las
+  // secciones y el de las piezas fijas (header, barra de anuncios,
+  // footer) que NO siguen el colorScheme de cada sección. Cambiá los hex
+  // acá — no hace falta tocar ningún archivo .css.
+  theme: {
+    // Fondo de las páginas del taller, visible en los huecos entre
+    // secciones (arriba del hero, entre catálogo y journal, etc).
+    pageBackground: '#f3e8c8',
+    // Píldora del menú, header fijo al hacer scroll y submenú desplegable.
+    headerBackground: '#ffffff',
+    // Barra de anuncios arriba del header.
+    announcementBackground: '#000000',
+    // Footer.
+    footerBackground: '#000000',
+  },
+
   logo: {
     // Si `image` tiene un path (relativo a la carpeta public/, ej.
     // "/img/logo.svg" — sin el prefijo "/public"), se usa esa imagen.
@@ -145,6 +161,11 @@ export const taller = {
     limit: 4,
     ctaLabel: 'Ver todos',
     ctaHref: '/archive',
+    // El "pizarrón" donde vive esta sección: fondo verde oscuro con
+    // textura de tiza, para que no se pierda contra el fondo cream del
+    // resto del sitio. Cambiá los hex acá.
+    background: '#1f3d2b',
+    ink: '#fdf8e7',
   },
 
   // Barra de anuncios arriba del header: franja negra angosta con
