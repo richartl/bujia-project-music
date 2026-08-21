@@ -100,7 +100,7 @@ export const taller = {
   about: {
     enabled: true,
     // Esquema de color (rosa | acido | azul | negro).
-    colorScheme: 'negro' as const,
+    colorScheme: 'kraft' as const,
   },
 
   // Sección "Guitarras que construimos" — modelos + precios, con su
@@ -214,6 +214,82 @@ export const colorSchemes = {
     accent: '#ffcc00',
     paper: '#111111',
   },
+  bujia: {
+      ink: '#171512',
+      accent: '#e94b3c',
+      paper: '#f3e8c8',
+    },
+
+    // Fanzine fotocopiado clásico.
+    // Prácticamente blanco y negro con amarillo de marcador.
+    xerox: {
+      ink: '#111111',
+      accent: '#f5c518',
+      paper: '#f4f0e6',
+    },
+
+    // Flyer punk impreso sobre papel amarillo.
+    flyer: {
+      ink: '#111111',
+      accent: '#e33b32',
+      paper: '#f2c94c',
+    },
+
+    // Cutting mat / mesa de trabajo.
+    // Perfecto para "Desde el taller".
+    taller: {
+      ink: '#f5edda',
+      accent: '#f5c518',
+      paper: '#234638',
+    },
+
+    // Rojo deslavado de impresión.
+    // Muy bueno para bloques agresivos y CTA.
+    rojo: {
+      ink: '#171512',
+      accent: '#f3d34a',
+      paper: '#df4b3f',
+    },
+
+    // Papel azul de fotocopia / flyer.
+    // Inspirado también en el overol de Bujía.
+    overol: {
+      ink: '#111111',
+      accent: '#f4c430',
+      paper: '#78a9b8',
+    },
+
+    // Papel kraft/cartón.
+    // Muy taller, empaques, etiquetas y manuales.
+    kraft: {
+      ink: '#191713',
+      accent: '#d94738',
+      paper: '#c8a66a',
+    },
+
+    // Fotocopia invertida.
+    // Para secciones muy punk sin ser negro puro.
+    carbon: {
+      ink: '#f2ead8',
+      accent: '#e94b3c',
+      paper: '#191919',
+    },
+
+    // Papel naranja de flyer barato.
+    // Úsalo poco porque llama muchísimo la atención.
+    naranja: {
+      ink: '#161616',
+      accent: '#e83f35',
+      paper: '#ef8d32',
+    },
+
+    // Fanzine verdoso / papel reciclado.
+    // Más apagado y editorial.
+    oliva: {
+      ink: '#171713',
+      accent: '#e94b3c',
+      paper: '#c7ca8b',
+    },
 } as const;
 
 export type ColorSchemeName = keyof typeof colorSchemes;

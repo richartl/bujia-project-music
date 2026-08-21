@@ -16,7 +16,22 @@ const posts = defineCollection({
     // el propio MDX vía <Portada>, <SectionTitle>, etc — igual que el tag
     // #fanzine en Ghost). false = post normal tipo blog.
     fanzine: z.boolean().default(false),
-    colorScheme: z.enum(['rosa', 'acido', 'azul', 'negro']).default('negro'),
+    colorScheme: z.enum([
+      'rosa',
+      'acido',
+      'azul',
+      'negro',
+      'bujia',
+      'xerox',
+      'flyer',
+      'taller',
+      'rojo',
+      'overol',
+      'kraft',
+      'carbon',
+      'naranja',
+      'oliva',
+    ]).default('negro'),
     tags: z.array(z.string()).default([]),
     description: z.string().optional(),
     cover: z.string().optional(),
