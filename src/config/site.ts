@@ -36,11 +36,12 @@ export const taller = {
   homeSections: ['hero', 'about', 'guitars', 'catalog', 'journal'] as const,
 
   logo: {
-    // Si `image` tiene un path (relativo a /public, ej. "/img/logo.svg"),
-    // se usa esa imagen. Si se deja vacío, se usa `text` con el estilo
+    // Si `image` tiene un path (relativo a la carpeta public/, ej.
+    // "/img/logo.svg" — sin el prefijo "/public"), se usa esa imagen.
+    // Si se deja vacío, se usa `text` con el estilo
     // "cursiva en óvalo" del diseño como placeholder.
     text: 'Bujía',
-    image: '/public/img/logo.png',
+    image: '/img/logo.png',
     alt: 'Bujía Project Music',
     href: '/',
     // Color del óvalo y del texto placeholder (independiente del --accent
